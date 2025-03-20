@@ -2,10 +2,13 @@ package com.austral.gamerxandria.nav
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
@@ -26,9 +29,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 fun BottomBar(
     onNavigate: (String) -> Unit,
 ) {
-    val libraryTab = TabBarItem(title = GamerxandriaNouns.Library.name, selectedIcon = Icons.Filled.Favorite, unselectedIcon = Icons.Outlined.Favorite)
+    val libraryTab = TabBarItem(title = GamerxandriaNouns.Library.name, selectedIcon = Icons.Filled.Favorite, unselectedIcon = Icons.Outlined.FavoriteBorder)
     val searchTab = TabBarItem(title = GamerxandriaNouns.Search.name, selectedIcon = Icons.Filled.Search, unselectedIcon = Icons.Outlined.Search)
-    val guessTab = TabBarItem(title = GamerxandriaNouns.Guess.name, selectedIcon = Icons.Filled.Person, unselectedIcon = Icons.Outlined.Person)
+    val guessTab = TabBarItem(title = GamerxandriaNouns.Guess.name, selectedIcon = Icons.Filled.Help, unselectedIcon = Icons.Outlined.Help)
     val settingsTab = TabBarItem(title = GamerxandriaNouns.Settings.name, selectedIcon = Icons.Filled.Settings, unselectedIcon = Icons.Outlined.Settings)
 
     val tabBarItems = listOf<TabBarItem>(libraryTab, searchTab, guessTab, settingsTab)

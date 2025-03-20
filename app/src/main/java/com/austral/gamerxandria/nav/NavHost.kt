@@ -18,7 +18,7 @@ import com.austral.gamerxandria.tab.settings.SettingsTab
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = GamerxandriaNouns.Search.name,
+        startDestination = GamerxandriaNouns.Library.name,
         modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp)
     ) {
         composable(route = GamerxandriaNouns.Library.name) {
