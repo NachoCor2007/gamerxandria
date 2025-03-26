@@ -37,16 +37,17 @@ fun GameCollection(shelfTitle: String = "A collection") {
 @Composable
 fun GameCard() {
     Card(
-        modifier = Modifier.padding(4.dp).size(192.dp)
+        modifier = Modifier
+            .padding(4.dp)
+            .size(192.dp)
     ) {
         Box(
             contentAlignment = Alignment.BottomStart,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().padding(16.dp)
         ) {
             Text(
                 text = "Game",
                 fontSize = 24.sp,
-                modifier = Modifier.padding(16.dp)
             )
         }
     }
