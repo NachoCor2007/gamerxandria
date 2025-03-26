@@ -12,7 +12,7 @@ fun LibraryTab() {
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            repeat(10) {
+            repeat(4) {
                 Shelf()
             }
         }
