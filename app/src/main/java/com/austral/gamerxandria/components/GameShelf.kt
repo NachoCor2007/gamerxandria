@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Shelf(shelfTitle: String = "A collection") {
+fun GameCollection(shelfTitle: String = "A collection") {
     Column(
         modifier = Modifier.fillMaxWidth().padding(0.dp, 8.dp)
     ) {

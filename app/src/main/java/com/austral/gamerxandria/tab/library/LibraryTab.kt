@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.austral.gamerxandria.components.Shelf
+import com.austral.gamerxandria.components.GameCollection
 
 @Composable
 fun LibraryTab() {
@@ -13,7 +13,7 @@ fun LibraryTab() {
     ) {
         item {
             repeat(4) {
-                Shelf()
+                GameCollection()
             }
         }
     }

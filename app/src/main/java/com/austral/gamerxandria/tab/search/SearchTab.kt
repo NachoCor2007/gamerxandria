@@ -5,11 +5,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.austral.gamerxandria.components.Shelf
+import com.austral.gamerxandria.components.GameCollection
 
 @Composable
 fun SearchTab() {
-
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -17,8 +16,10 @@ fun SearchTab() {
             Text(
                 text = "Search bar stand by"
             )
-            Shelf("Based on your library")
-            Shelf("This week")
+            GameCollection("Based on your library")
+            GameCollection("Trending")
+            GameCollection("This week")
+            GameCollection("Another topic")
         }
     }
 }
