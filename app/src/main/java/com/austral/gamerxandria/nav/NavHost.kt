@@ -19,7 +19,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
     NavHost(
         navController = navController,
         startDestination = GamerxandriaNouns.Library.name,
-        modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp)
+        modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp, 0.dp)
     ) {
         composable(route = GamerxandriaNouns.Library.name) {
             LibraryTab()
