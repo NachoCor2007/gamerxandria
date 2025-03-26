@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.austral.gamerxandria.components.Shelf
 
 @Composable
 fun LibraryTab() {
@@ -25,43 +26,6 @@ fun LibraryTab() {
             repeat(10) {
                 Shelf()
             }
-        }
-    }
-}
-
-@Composable
-fun Shelf() {
-    Column(
-        modifier = Modifier.fillMaxWidth().padding(0.dp, 8.dp)
-    ) {
-        Text(
-            text = "A collection",
-            fontSize = 32.sp
-        )
-        LazyRow {
-            item {
-                repeat(10) {
-                    GameCard()
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun GameCard() {
-    Card(
-        modifier = Modifier.padding(4.dp).size(192.dp)
-    ) {
-        Box(
-            contentAlignment = Alignment.BottomStart,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "Game",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(16.dp)
-            )
         }
     }
 }
