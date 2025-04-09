@@ -4,5 +4,5 @@ enum class GamerxandriaNouns {
     Search,
     Library,
     Guess,
-    Settings,
+    Statistics,
 }

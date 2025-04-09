@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
 import com.austral.gamerxandria.tab.search.SearchTab
-import com.austral.gamerxandria.tab.settings.SettingsTab
+import com.austral.gamerxandria.tab.settings.StatisticsTab
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
@@ -30,8 +30,8 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         composable(route = GamerxandriaNouns.Guess.name) {
             GuessTab()
         }
-        composable(route = GamerxandriaNouns.Settings.name) {
-            SettingsTab()
+        composable(route = GamerxandriaNouns.Statistics.name) {
+            StatisticsTab()
         }
     }
 }
