@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 import com.austral.gamerxandria.components.GameCollection
 
 @Composable
-fun SearchTab() {
+fun SearchTab(navigateToGameView: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
     ) {
             Text(
                 text = "Search bar stand by"
             )
-            GameCollection("Based on your library")
-            GameCollection("Trending")
-            GameCollection("This week")
-            GameCollection("Another topic")
+            GameCollection(navigateToGameView, "Based on your library")
+            GameCollection(navigateToGameView, "Trending")
+            GameCollection(navigateToGameView, "This week")
+            GameCollection(navigateToGameView, "Another topic")
         }
 }

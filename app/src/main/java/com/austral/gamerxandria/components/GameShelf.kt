@@ -16,9 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun GameCollection(shelfTitle: String = "A collection") {
+fun GameCollection(navigateToGameView: () -> Unit, shelfTitle: String = "A collection") {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(0.dp, 8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 8.dp)
     ) {
         Text(
             text = shelfTitle,
@@ -27,7 +29,7 @@ fun GameCollection(shelfTitle: String = "A collection") {
         LazyRow {
             item {
                 repeat(10) {
-                    GameCard()
+                    GameCard(navigateToGameView)
                 }
             }
         }
@@ -35,15 +37,18 @@ fun GameCollection(shelfTitle: String = "A collection") {
 }
 
 @Composable
-fun GameCard() {
+fun GameCard(navigateToGameView: () -> Unit) {
     Card(
+        onClick = navigateToGameView,
         modifier = Modifier
             .padding(4.dp)
             .size(192.dp)
     ) {
         Box(
             contentAlignment = Alignment.BottomStart,
-            modifier = Modifier.fillMaxSize().padding(16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
             Text(
                 text = "Game",

@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.austral.gamerxandria.components.GameView
+import com.austral.gamerxandria.nav.GamerxandriaNouns
 import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
 import com.austral.gamerxandria.tab.search.SearchTab
@@ -19,19 +21,27 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
     NavHost(
         navController = navController,
         startDestination = GamerxandriaNouns.Library.name,
-        modifier = Modifier.fillMaxSize().padding(innerPadding).padding(20.dp, 0.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+            .padding(20.dp, 0.dp)
     ) {
+        var navigateToGameView: () -> Unit = { navController.navigate(GamerxandriaNouns.Game.name) }
+
         composable(route = GamerxandriaNouns.Library.name) {
-            LibraryTab()
+            LibraryTab(navigateToGameView)
         }
         composable(route = GamerxandriaNouns.Search.name) {
-            SearchTab()
+            SearchTab(navigateToGameView)
         }
         composable(route = GamerxandriaNouns.Guess.name) {
             GuessTab()
         }
         composable(route = GamerxandriaNouns.Statistics.name) {
             StatisticsTab()
+        }
+        composable(route = GamerxandriaNouns.Game.name) {
+            GameView()
         }
     }
 }
