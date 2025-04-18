@@ -46,7 +46,6 @@ fun SearchTab(navigateToGameView: () -> Unit) {
         )
         LazyColumn {
             item {
-
                 GameCollection(navigateToGameView, "Based on your library")
                 GameCollection(navigateToGameView, "Trending")
                 GameCollection(navigateToGameView, "This week")
@@ -66,8 +65,8 @@ fun SimpleSearchBar(
     modifier: Modifier = Modifier
 ) {
     // Controls expansion state of the search bar
-    var expanded by rememberSaveable { mutableStateOf(false) }
-//    var expanded = false
+//    var expanded by rememberSaveable { mutableStateOf(false) }
+    var expanded = false
 
     Box(
         modifier
