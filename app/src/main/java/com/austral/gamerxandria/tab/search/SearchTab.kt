@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.austral.gamerxandria.components.GameCollection
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTab(navigateToGameView: () -> Unit) {
 
@@ -42,7 +41,6 @@ fun SearchTab(navigateToGameView: () -> Unit) {
                 GameCollection(navigateToGameView, "This week")
                 GameCollection(navigateToGameView, "Another topic")
             }
-
         }
     }
 }
