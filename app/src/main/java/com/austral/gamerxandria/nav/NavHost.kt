@@ -27,6 +27,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
     ) {
         var navigateToGameView: () -> Unit = { navController.navigate(GamerxandriaNouns.Game.name) }
 
+//      Tab routes.
         composable(route = GamerxandriaNouns.Library.name) {
             LibraryTab(navigateToGameView)
         }
@@ -39,6 +40,8 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         composable(route = GamerxandriaNouns.Statistics.name) {
             StatisticsTab()
         }
+
+//      Game display route.
         composable(route = GamerxandriaNouns.Game.name) {
             GameView()
         }
