@@ -18,44 +18,34 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StatisticsTab() {
-    var guessGameExpanded by remember { mutableStateOf(true) }
-    var gamerCareerExpanded by remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
     ) {
-        HorizontalDivider()
-
         // First menu item - "Guess the game stats"
-        MenuHeader(
-            title = "Guess the game stats",
-            isExpanded = guessGameExpanded,
-            onToggleExpand = { guessGameExpanded = !guessGameExpanded }
-        )
-
-        AnimatedVisibility(visible = guessGameExpanded) {
-            Column(modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)) {
-                InfoItem("info")
-                InfoItem("info")
-            }
-        }
-
         HorizontalDivider()
+        StatsMenu("Guess the game stats", true)
 
         // Second menu item - "Gamer Career"
-        MenuHeader(
-            title = "Gamer Career",
-            isExpanded = gamerCareerExpanded,
-            onToggleExpand = { gamerCareerExpanded = !gamerCareerExpanded }
-        )
+        HorizontalDivider()
+        StatsMenu("Gamer Career")
+    }
+}
 
-        AnimatedVisibility(visible = gamerCareerExpanded) {
-            Column(modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)) {
-                InfoItem("info")
-                InfoItem("info")
-                InfoItem("info")
-            }
+@Composable
+private fun StatsMenu(menuTitle: String = "Stats menu", menuExpandedValue: Boolean = false) {
+    var menuExpanded by remember { mutableStateOf(menuExpandedValue) }
+
+    MenuHeader(
+        title = menuTitle,
+        isExpanded = menuExpanded,
+        onToggleExpand = { menuExpanded = !menuExpanded }
+    )
+
+    AnimatedVisibility(visible = menuExpanded) {
+        Column(modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)) {
+            InfoItem("info")
+            InfoItem("info")
         }
     }
 }
