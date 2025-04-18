@@ -30,19 +30,16 @@ import com.austral.gamerxandria.R
 
 @Composable
 fun GameView() {
-    Column(
-        modifier = Modifier
-    ) {
+    Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp, 8.dp)
-                .background(Color.Transparent),
+                .padding(0.dp, 8.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Jueguito",
+                text = "Name",
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
@@ -53,7 +50,7 @@ fun GameView() {
         ) {
             Image(
                 painterResource(R.drawable.stand_by_image),
-                contentDescription = "Stand ready for my arrival, worm",
+                contentDescription = "Cover",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(16.dp)
@@ -61,13 +58,39 @@ fun GameView() {
                     .fillMaxWidth()
                     .height(256.dp)
             )
+
             Text(
                 text = "Game status",
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "Game description",
+                text = "First release date",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Rating",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Platforms",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Genres",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Involved companies",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "Summary",
                 fontSize = 24.sp,
                 modifier = Modifier.padding(16.dp)
             )
