@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -92,33 +93,35 @@ enum class GuessStatus {
 
 @Composable
 fun GuessList(guesses: List<Guess>) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        guesses.forEach { guess ->
-            val backgroundColor = when (guess.status) {
-                GuessStatus.WRONG -> Color(0xFFEC7C7C) // Red
-                GuessStatus.NEAR -> Color(0xFFECD07C) // Yellow
-                GuessStatus.CORRECT -> Color(0xFF8DEC7C) // Green
-            }
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        item {
+            guesses.forEach { guess ->
+                val backgroundColor = when (guess.status) {
+                    GuessStatus.WRONG -> Color(0xFFEC7C7C)   // Red
+                    GuessStatus.NEAR -> Color(0xFFECD07C)    // Yellow
+                    GuessStatus.CORRECT -> Color(0xFF8DEC7C) // Green
+                }
 
-            Text(
-                text = guess.text,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 0.dp, 0.dp, 8.dp)
-                    .background(backgroundColor)
-                    .padding(16.dp),
-                color = Color.Black
-            )
-
-            if (guess.status != GuessStatus.CORRECT) {
                 Text(
-                    text = "Hint",
+                    text = guess.text,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(0.dp, 0.dp, 0.dp, 8.dp)
-                        .background(Color(0xFF493077))
-                        .padding(8.dp),
+                        .background(backgroundColor)
+                        .padding(16.dp),
+                    color = Color.Black
                 )
+
+                if (guess.status != GuessStatus.CORRECT) {
+                    Text(
+                        text = "Hint",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 0.dp, 0.dp, 8.dp)
+                            .background(Color(0xFF493077))
+                            .padding(8.dp),
+                    )
+                }
             }
         }
     }

@@ -13,7 +13,7 @@ import com.austral.gamerxandria.components.GameView
 import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
 import com.austral.gamerxandria.tab.search.SearchTab
-import com.austral.gamerxandria.tab.settings.StatisticsTab
+import com.austral.gamerxandria.tab.statistics.StatisticsTab
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
