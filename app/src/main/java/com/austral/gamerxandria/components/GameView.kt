@@ -21,10 +21,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.R
+import com.austral.gamerxandria.model.VideoGame
+import com.austral.gamerxandria.tab.NotFound
 
 @Composable
 fun GameView(videoGameId: Int) {
+    val viewModel = hiltViewModel<GameViewModel>()
+    val videoGame = viewModel.retrieveVideoGameById(videoGameId)
+
+    when (videoGame) {
+        null -> NotFound("VideoGame not found. id: $videoGameId")
+        else -> VideoGameInformation(videoGame)
+    }
+}
+
+@Composable
+private fun VideoGameInformation(videoGame: VideoGame) {
     Column {
         Row(
             modifier = Modifier
@@ -34,14 +48,16 @@ fun GameView(videoGameId: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Name",
+                text = videoGame.name,
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
         }
 
         Column(
-            modifier = Modifier.fillMaxSize().verticalScroll(state = rememberScrollState(),enabled = true)
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(state = rememberScrollState(), enabled = true)
         ) {
             Image(
                 painterResource(R.drawable.stand_by_image),
@@ -60,33 +76,38 @@ fun GameView(videoGameId: Int) {
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "First release date",
+                text = videoGame.first_release_date,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "Rating",
+                text = "${videoGame.aggregated_rating}",
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "Platforms",
+                text = videoGame.platforms.toString(),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "Genres",
+                text = videoGame.genres.toString(),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
-                text = "Involved companies",
+                text = videoGame.involved_companies.toString(),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
             Text(
                 text = "Summary",
                 fontSize = 24.sp,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = videoGame.summary,
+                fontSize = 16.sp,
                 modifier = Modifier.padding(16.dp)
             )
         }

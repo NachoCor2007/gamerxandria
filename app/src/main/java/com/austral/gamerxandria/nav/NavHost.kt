@@ -46,11 +46,11 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
 
 //      Game display route.
         composable(route = "${GamerxandriaNouns.Game.name}/{videoGameId}") { backStackEntry ->
-            val videoGameId: Int? = backStackEntry.arguments?.getInt("videoGameId")
+            val videoGameId: String? = backStackEntry.arguments?.getString("videoGameId")
 
             when (videoGameId) {
                 null -> NotFound("VideoGameId is null") // Handle null case
-                else -> GameView(videoGameId) // Handle valid case
+                else -> GameView(videoGameId.toInt()) // Handle valid case
             }
         }
     }
