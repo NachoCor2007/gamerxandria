@@ -23,14 +23,14 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        var collections = remember { mutableStateListOf<String>("Favorites", "Completed", "In progress", "Backlog") }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            repeat(4) {
-                GameCollection(navigateToGameView)
-            }
+            collections.forEach { collectionName -> GameCollection(navigateToGameView, collectionName) }
         }
 
         var showDialog by remember { mutableStateOf(false) }
@@ -52,10 +52,9 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
             ShelfCreatorPopUp(
                 onDismiss = { showDialog = false },
                 onConfirm = { text ->
-//                    if (text.isNotBlank()) {
-//                        items = items + MyItem(nextId, text)
-//                        nextId++
-//                    }
+                    if (text.isNotBlank()) {
+                        collections.add(text)
+                    }
 
                     println("Creating shelf with name: $text")
                     showDialog = false
