@@ -37,7 +37,7 @@ fun SearchTab(navigateToGameView: () -> Unit) {
                 .padding(16.dp)
         )
         LazyColumn {
-            var shelves = modelView.retrieveShelves()
+            val shelves = modelView.retrieveShelves()
 
             item {
                 shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf.name) }

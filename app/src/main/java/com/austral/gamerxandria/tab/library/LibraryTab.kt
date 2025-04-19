@@ -26,7 +26,7 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        var shelves = modelView.retrieveShelves()
+        val shelves = modelView.retrieveShelves()
 
         Column(
             modifier = Modifier
