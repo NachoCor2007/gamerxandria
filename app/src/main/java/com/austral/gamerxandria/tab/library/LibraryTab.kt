@@ -16,21 +16,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.austral.gamerxandria.components.GameCollection
 import androidx.compose.runtime.*
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
 
 @Composable
 fun LibraryTab(navigateToGameView: () -> Unit) {
+    val modelView = hiltViewModel<LibraryViewModel>()
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        var collections = remember { mutableStateListOf<String>("Favorites", "Completed", "In progress", "Backlog") }
+        var shelves = modelView.retrieveShelves()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            collections.forEach { collectionName -> GameCollection(navigateToGameView, collectionName) }
+            shelves.forEach { shelf -> GameCollection(navigateToGameView, shelf.name) }
         }
 
         var showDialog by remember { mutableStateOf(false) }
@@ -51,12 +54,11 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
         if (showDialog) {
             ShelfCreatorPopUp(
                 onDismiss = { showDialog = false },
-                onConfirm = { text ->
-                    if (text.isNotBlank()) {
-                        collections.add(text)
+                onConfirm = { newShelfName ->
+                    if (newShelfName.isNotBlank()) {
+                        modelView.addShelf(newShelfName)
                     }
 
-                    println("Creating shelf with name: $text")
                     showDialog = false
                 }
             )
