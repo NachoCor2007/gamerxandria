@@ -36,19 +36,7 @@ fun GameView(videoGameId: Int) {
 @Composable
 private fun VideoGameInformation(videoGame: VideoGame) {
     Column {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp, 8.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = videoGame.name,
-                textAlign = TextAlign.Center,
-                fontSize = 24.sp
-            )
-        }
+        VideoGameTitle(videoGame)
 
         Column(
             modifier = Modifier
@@ -105,5 +93,22 @@ private fun VideoGameInformation(videoGame: VideoGame) {
                 modifier = Modifier.padding(16.dp)
             )
         }
+    }
+}
+
+@Composable
+private fun VideoGameTitle(videoGame: VideoGame) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 8.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = videoGame.name,
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp
+        )
     }
 }
