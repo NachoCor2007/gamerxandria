@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun GameCollection(navigateToGameView: () -> Unit, shelfTitle: String = "A collection") {
+fun GameShelf(navigateToGameView: () -> Unit, shelfTitle: String = "A collection") {
     Column(
         modifier = Modifier
             .fillMaxWidth()

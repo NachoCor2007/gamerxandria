@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.austral.gamerxandria.components.GameCollection
+import com.austral.gamerxandria.components.GameShelf
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
@@ -33,7 +33,7 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            shelves.forEach { shelf -> GameCollection(navigateToGameView, shelf.name) }
+            shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf.name) }
         }
 
         var showDialog by remember { mutableStateOf(false) }

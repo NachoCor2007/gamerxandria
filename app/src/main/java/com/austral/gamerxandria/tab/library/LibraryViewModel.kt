@@ -12,18 +12,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor() : ViewModel() {
-    private var _collections = MutableStateFlow(userShelvesMock)
-    val collections = _collections.asStateFlow()
+    private var _shelves = MutableStateFlow(userShelvesMock)
+    val shelves = _shelves.asStateFlow()
 
     fun retrieveShelves(): List<Shelf> {
-        return collections.value
+        return shelves.value
     }
 
     fun addShelf(shelfName: String) {
         val shelf = Shelf(shelfName, listOf())
         viewModelScope.launch {
-            _collections.emit(
-                _collections.value + shelf
+            _shelves.emit(
+                _shelves.value + shelf
             )
         }
     }

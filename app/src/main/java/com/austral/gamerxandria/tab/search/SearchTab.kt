@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.austral.gamerxandria.components.GameCollection
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.austral.gamerxandria.components.GameShelf
 
 @Composable
 fun SearchTab(navigateToGameView: () -> Unit) {
+    val modelView = hiltViewModel<SearchViewModel>()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -35,11 +37,10 @@ fun SearchTab(navigateToGameView: () -> Unit) {
                 .padding(16.dp)
         )
         LazyColumn {
+            var shelves = modelView.retrieveShelves()
+
             item {
-                GameCollection(navigateToGameView, "Based on your library")
-                GameCollection(navigateToGameView, "Trending")
-                GameCollection(navigateToGameView, "This week")
-                GameCollection(navigateToGameView, "Another topic")
+                shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf.name) }
             }
         }
     }
