@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class GameShelfViewModel @Inject constructor() : ViewModel()  {
+class GameShelfViewModel @Inject constructor() : ViewModel() {
     private var _videoGames = MutableStateFlow(VideoGameMock)
     val videoGames = _videoGames.asStateFlow()
 
