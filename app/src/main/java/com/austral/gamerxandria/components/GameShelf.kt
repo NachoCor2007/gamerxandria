@@ -14,22 +14,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.austral.gamerxandria.model.Shelf
+import com.austral.gamerxandria.model.VideoGame
 
 @Composable
-fun GameShelf(navigateToGameView: () -> Unit, shelfTitle: String = "A collection") {
+fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
+    val viewModel = hiltViewModel<GameShelfViewModel>()
+    val videoGames = viewModel.retrieveVideoGamesByIds(shelf.games)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp, 8.dp)
     ) {
         Text(
-            text = shelfTitle,
+            text = shelf.name,
             fontSize = 32.sp
         )
         LazyRow {
             item {
-                repeat(10) {
-                    GameCard(navigateToGameView)
+                videoGames.forEach{ videoGame ->
+                    GameCard(
+                        navigateToGameView = navigateToGameView,
+                        videoGame = videoGame
+                    )
                 }
             }
         }
@@ -37,9 +46,9 @@ fun GameShelf(navigateToGameView: () -> Unit, shelfTitle: String = "A collection
 }
 
 @Composable
-fun GameCard(navigateToGameView: () -> Unit) {
+fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
     Card(
-        onClick = navigateToGameView,
+        onClick = { navigateToGameView(videoGame.id) },
         modifier = Modifier
             .padding(4.dp)
             .size(192.dp)
@@ -51,7 +60,7 @@ fun GameCard(navigateToGameView: () -> Unit) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Game",
+                text = videoGame.name,
                 fontSize = 24.sp,
             )
         }

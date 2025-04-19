@@ -20,20 +20,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
 
 @Composable
-fun LibraryTab(navigateToGameView: () -> Unit) {
-    val modelView = hiltViewModel<LibraryViewModel>()
+fun LibraryTab(navigateToGameView: (Int) -> Unit) {
+    val viewModel = hiltViewModel<LibraryViewModel>()
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        val shelves = modelView.retrieveShelves()
+        val shelves = viewModel.retrieveShelves()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf.name) }
+            shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf) }
         }
 
         var showDialog by remember { mutableStateOf(false) }
@@ -56,7 +56,7 @@ fun LibraryTab(navigateToGameView: () -> Unit) {
                 onDismiss = { showDialog = false },
                 onConfirm = { newShelfName ->
                     if (newShelfName.isNotBlank()) {
-                        modelView.addShelf(newShelfName)
+                        viewModel.addShelf(newShelfName)
                     }
 
                     showDialog = false

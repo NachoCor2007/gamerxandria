@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.GameShelf
 
 @Composable
-fun SearchTab(navigateToGameView: () -> Unit) {
+fun SearchTab(navigateToGameView: (Int) -> Unit) {
     val modelView = hiltViewModel<SearchViewModel>()
 
     Column(
@@ -40,7 +40,7 @@ fun SearchTab(navigateToGameView: () -> Unit) {
             val shelves = modelView.retrieveShelves()
 
             item {
-                shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf.name) }
+                shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf) }
             }
         }
     }

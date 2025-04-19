@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.austral.gamerxandria.R
 
 @Composable
-fun GameView() {
+fun GameView(videoGameId: Int) {
     Column {
         Row(
             modifier = Modifier

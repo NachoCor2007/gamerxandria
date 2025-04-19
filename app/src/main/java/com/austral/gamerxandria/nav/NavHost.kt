@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.austral.gamerxandria.components.GameView
+import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
 import com.austral.gamerxandria.tab.search.SearchTab
@@ -25,7 +26,9 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             .padding(innerPadding)
             .padding(20.dp, 0.dp)
     ) {
-        var navigateToGameView: () -> Unit = { navController.navigate(GamerxandriaNouns.Game.name) }
+        var navigateToGameView: (Int) -> Unit = { videoGameId ->
+            navController.navigate("${GamerxandriaNouns.Game.name}/${videoGameId}")
+        }
 
 //      Tab routes.
         composable(route = GamerxandriaNouns.Library.name) {
@@ -42,8 +45,13 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
 //      Game display route.
-        composable(route = GamerxandriaNouns.Game.name) {
-            GameView()
+        composable(route = "${GamerxandriaNouns.Game.name}/{videoGameId}") { backStackEntry ->
+            val videoGameId: Int? = backStackEntry.arguments?.getInt("videoGameId")
+
+            when (videoGameId) {
+                null -> NotFound("VideoGameId is null") // Handle null case
+                else -> GameView(videoGameId) // Handle valid case
+            }
         }
     }
 }
