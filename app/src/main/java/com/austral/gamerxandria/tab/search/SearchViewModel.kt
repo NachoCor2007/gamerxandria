@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor() : ViewModel()  {
+class SearchViewModel @Inject constructor() : ViewModel() {
     private var _shelves = MutableStateFlow(searchShelvesMock)
     val shelves = _shelves.asStateFlow()
 
