@@ -41,3 +41,6 @@ output/
 
 # Windows specific files
 Thumbs.db
+
+# Sensitive files
+apiKeys.xml
