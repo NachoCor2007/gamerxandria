@@ -6,8 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.ButtonRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,8 +24,8 @@ fun ShelfCreatorPopUp(
             color = MaterialTheme.colorScheme.surface
         ) {
             Column(
-                modifier = Modifier.padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier.padding(AppSize.spacingLarge),
+                verticalArrangement = Arrangement.spacedBy(AppSize.contentPadding)
             ) {
                 Text(
                     text = "Add New Item",
@@ -50,10 +51,13 @@ fun ShelfCreatorPopUp(
                         Text("Cancel")
                     }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(AppSize.spacingSmall))
 
                     Button(
-                        onClick = { onConfirm(text) }
+                        onClick = { onConfirm(text) },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = ButtonRed
+                        )
                     ) {
                         Text("Create")
                     }

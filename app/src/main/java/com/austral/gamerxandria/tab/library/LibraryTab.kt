@@ -9,15 +9,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.austral.gamerxandria.components.GameShelf
 import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.ButtonRed
 
 @Composable
 fun LibraryTab(navigateToGameView: (Int) -> Unit) {
@@ -42,7 +45,9 @@ fun LibraryTab(navigateToGameView: (Int) -> Unit) {
             onClick = { showDialog = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(0.dp, 0.dp, 0.dp, 16.dp) // Add padding to avoid touching screen edges
+                .padding(0.dp, 0.dp, 0.dp, AppSize.contentPadding),
+            containerColor = ButtonRed,
+            elevation = FloatingActionButtonDefaults.elevation()
         ) {
             Icon(
                 Icons.Default.Add,

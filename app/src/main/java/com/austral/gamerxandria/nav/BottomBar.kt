@@ -12,8 +12,10 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +23,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.LocalGamerxandriaColors
 
 @Composable
 fun BottomBar(
@@ -49,7 +54,13 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
-    NavigationBar {
+    val colors = LocalGamerxandriaColors.current
+
+    NavigationBar(
+        containerColor = colors.cardBackground,
+        contentColor = colors.textPrimary,
+        tonalElevation = AppSize.spacingTiny
+    ) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
             NavigationBarItem(
                 selected = selectedTabIndex == index,
@@ -66,7 +77,21 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
                         badgeAmount = tabBarItem.badgeAmount
                     )
                 },
-                label = { Text(tabBarItem.title) })
+                label = {
+                    Text(
+                        text = tabBarItem.title,
+                        style = MaterialTheme.typography.labelSmall,
+                        textAlign = TextAlign.Center
+                    )
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = colors.textPrimary,
+                    selectedTextColor = colors.textPrimary,
+                    indicatorColor = colors.activeTabColor,
+                    unselectedIconColor = colors.textPrimary.copy(alpha = 0.7f),
+                    unselectedTextColor = colors.textPrimary.copy(alpha = 0.7f)
+                )
+            )
         }
     }
 }
@@ -79,10 +104,13 @@ fun TabBarIconView(
     title: String,
     badgeAmount: Int? = null
 ) {
+    val colors = LocalGamerxandriaColors.current
+
     BadgedBox(badge = { TabBarBadgeView(badgeAmount) }) {
         Icon(
-            imageVector = if (isSelected) {selectedIcon} else {unselectedIcon},
-            contentDescription = title
+            imageVector = if (isSelected) selectedIcon else unselectedIcon,
+            contentDescription = title,
+            tint = if (isSelected) colors.textPrimary else colors.textPrimary.copy(alpha = 0.7f)
         )
     }
 }
@@ -91,7 +119,10 @@ fun TabBarIconView(
 fun TabBarBadgeView(count: Int? = null) {
     if (count != null) {
         Badge {
-            Text(count.toString())
+            Text(
+                text = count.toString(),
+                style = MaterialTheme.typography.labelSmall
+            )
         }
     }
 }

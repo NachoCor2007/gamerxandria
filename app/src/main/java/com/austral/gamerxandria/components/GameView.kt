@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.CardBackground
+import com.austral.gamerxandria.ui.theme.GameViewTitle
 
 @Composable
 fun GameView(videoGameId: Int) {
@@ -43,54 +47,59 @@ private fun VideoGameInformation(videoGame: VideoGame) {
                 .fillMaxSize()
                 .verticalScroll(state = rememberScrollState(), enabled = true)
         ) {
-            Card {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = CardBackground
+                )
+            ) {
                 AsyncImage(
                     model = videoGame.cover.url,
                     contentDescription = "VideoGame cover",
-                    contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
             }
 
             Text(
                 text = "Game status",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = videoGame.first_release_date,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = "${videoGame.aggregated_rating}",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = videoGame.platforms.toString(),
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = videoGame.genres.toString(),
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = videoGame.involved_companies.toString(),
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = "Summary",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
                 text = videoGame.summary,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(16.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(AppSize.contentPadding)
             )
         }
     }
@@ -101,14 +110,14 @@ private fun VideoGameTitle(videoGame: VideoGame) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, 8.dp),
+            .padding(0.dp, AppSize.spacingSmall),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = videoGame.name,
-            textAlign = TextAlign.Center,
-            fontSize = 24.sp
+            style = GameViewTitle,
+            textAlign = TextAlign.Center
         )
     }
 }

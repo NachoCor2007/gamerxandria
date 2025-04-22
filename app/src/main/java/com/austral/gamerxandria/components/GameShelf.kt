@@ -9,19 +9,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.GameCardTitle
+import com.austral.gamerxandria.ui.theme.GameShelfTitle
+import com.austral.gamerxandria.ui.theme.TextWhite
+import com.austral.gamerxandria.ui.theme.CardBackground
 
 @Composable
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
@@ -31,11 +36,12 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, 8.dp)
+            .padding(0.dp, AppSize.spacingSmall)
     ) {
         Text(
             text = shelf.name,
-            fontSize = 32.sp
+            style = GameShelfTitle,
+            modifier = Modifier.padding(bottom = AppSize.spacingSmall)
         )
         LazyRow {
             item {
@@ -55,8 +61,11 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
     Card(
         onClick = { navigateToGameView(videoGame.id) },
         modifier = Modifier
-            .padding(4.dp)
-            .size(192.dp)
+            .padding(AppSize.spacingTiny)
+            .size(AppSize.gameCardSize),
+        colors = CardDefaults.cardColors(
+            containerColor = CardBackground
+        )
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -76,8 +85,8 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.7f)
+                                androidx.compose.ui.graphics.Color.Transparent,
+                                androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.7f)
                             ),
                             startY = 0f,  // Top of the box
                             endY = Float.POSITIVE_INFINITY  // Bottom of the box
@@ -88,11 +97,11 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
             // Text at the bottom
             Text(
                 text = videoGame.name,
-                fontSize = 24.sp,
-                color = Color.White,  // Light text color for better contrast
+                style = GameCardTitle,
+                color = TextWhite,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(16.dp)
+                    .padding(AppSize.contentPadding)
             )
         }
     }

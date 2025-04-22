@@ -12,9 +12,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.StatisticItemTitle
+import com.austral.gamerxandria.ui.theme.TextGray
+import com.austral.gamerxandria.ui.theme.TextWhite
 
 @Composable
 fun StatisticsTab() {
@@ -43,7 +45,7 @@ private fun StatsMenu(menuTitle: String = "Stats menu", menuExpandedValue: Boole
     )
 
     AnimatedVisibility(visible = menuExpanded) {
-        Column(modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)) {
+        Column(modifier = Modifier.padding(start = AppSize.spacingXLarge, top = AppSize.spacingSmall, bottom = AppSize.spacingSmall)) {
             InfoItem("info")
             InfoItem("info")
         }
@@ -60,7 +62,7 @@ fun MenuHeader(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onToggleExpand() }
-            .padding(16.dp),
+            .padding(AppSize.contentPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Use X or checkmark based on isChecked
@@ -68,23 +70,23 @@ fun MenuHeader(
             Icon(
                 imageVector = Icons.Default.KeyboardArrowDown,
                 contentDescription = "Completed",
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
+                tint = TextWhite,
+                modifier = Modifier.size(AppSize.iconSize)
             )
         } else {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "Not Completed",
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
+                tint = TextWhite,
+                modifier = Modifier.size(AppSize.iconSize)
             )
         }
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(AppSize.contentPadding))
 
         Text(
             text = title,
-            style = MaterialTheme.typography.bodyLarge,
+            style = StatisticItemTitle,
             fontWeight = FontWeight.Normal
         )
     }
@@ -94,8 +96,8 @@ fun MenuHeader(
 fun InfoItem(text: String) {
     Text(
         text = text,
-        modifier = Modifier.padding(vertical = 4.dp),
+        modifier = Modifier.padding(vertical = AppSize.spacingTiny),
         style = MaterialTheme.typography.bodyMedium,
-        color = Color.Gray
+        color = TextGray
     )
 }

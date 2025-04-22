@@ -15,6 +15,7 @@ import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
 import com.austral.gamerxandria.tab.search.SearchTab
 import com.austral.gamerxandria.tab.statistics.StatisticsTab
+import com.austral.gamerxandria.ui.theme.AppSize
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
@@ -24,7 +25,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .padding(20.dp, 0.dp)
+            .padding(AppSize.screenHorizontalPadding, 0.dp)
     ) {
         var navigateToGameView: (Int) -> Unit = { videoGameId ->
             navController.navigate("${GamerxandriaNouns.Game.name}/${videoGameId}")

@@ -16,9 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.austral.gamerxandria.components.GameShelf
+import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.CardBackground
 
 @Composable
 fun SearchTab(navigateToGameView: (Int) -> Unit) {
@@ -26,7 +27,6 @@ fun SearchTab(navigateToGameView: (Int) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxSize()
-//            .verticalScroll(rememberScrollState())
     ) {
         SimpleSearchBar(
             textFieldState = TextFieldState(),
@@ -34,7 +34,7 @@ fun SearchTab(navigateToGameView: (Int) -> Unit) {
             searchResults = listOf("Result 1", "Result 2", "Result 3"),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(AppSize.contentPadding)
         )
         LazyColumn {
             val shelves = modelView.retrieveShelves()
@@ -55,7 +55,6 @@ fun SimpleSearchBar(
     modifier: Modifier = Modifier
 ) {
     // Controls expansion state of the search bar
-//    var expanded by rememberSaveable { mutableStateOf(false) }
     var expanded = false
 
     Box(
@@ -64,6 +63,10 @@ fun SimpleSearchBar(
         SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter),
+            colors = SearchBarDefaults.colors(
+                containerColor = CardBackground,
+                dividerColor = CardBackground
+            ),
             inputField = {
                 SearchBarDefaults.InputField(
                     query = textFieldState.text.toString(),
@@ -81,9 +84,7 @@ fun SimpleSearchBar(
             onExpandedChange = { expanded = it },
         ) {
             // Display search results in a scrollable column
-            Column(Modifier
-//                .verticalScroll(rememberScrollState())
-            ) {
+            Column {
                 searchResults.forEach { result ->
                     ListItem(
                         headlineContent = { Text(result) },
