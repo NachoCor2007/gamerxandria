@@ -172,7 +172,7 @@ private fun PlatformsComponent(videoGame: VideoGame) {
 
 private fun formatUnixTimestamp(unixTimestamp: Long): String {
     val instant = Instant.ofEpochSecond(unixTimestamp)
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         .withZone(ZoneId.systemDefault())
     return formatter.format(instant)
 }
