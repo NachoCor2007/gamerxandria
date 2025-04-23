@@ -8,17 +8,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
@@ -30,27 +33,76 @@ import com.austral.gamerxandria.ui.theme.CardBackground
 
 @Composable
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
-    val viewModel = hiltViewModel<GameShelfViewModel>()
-    val videoGames = viewModel.retrieveVideoGamesByIds(shelf.games)
+    val viewModel = hiltViewModel<GameShelfViewModel>(
+        key = "shelf_${shelf.name}"
+    )
+
+    // Load games for this specific shelf when the composable first launches
+    LaunchedEffect(shelf.games) {
+        viewModel.loadGames(shelf.games)
+    }
+
+    val videoGames = viewModel.videoGames.collectAsStateWithLifecycle().value
+    val loading = viewModel.loading.collectAsStateWithLifecycle().value
+    val showRetry = viewModel.showRetry.collectAsStateWithLifecycle().value
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp, AppSize.spacingSmall)
     ) {
-        Text(
-            text = shelf.name,
-            style = GameShelfTitle,
-            modifier = Modifier.padding(bottom = AppSize.spacingSmall)
-        )
-        LazyRow {
-            item {
-                videoGames.forEach{ videoGame ->
-                    GameCard(
-                        navigateToGameView = navigateToGameView,
-                        videoGame = videoGame
-                    )
-                }
+        if (loading) {
+            CircularProgressIndicator(
+                color = TextWhite,
+            modifier = Modifier.size(48.dp)
+            )
+        } else if (showRetry) {
+            Text(
+                "There was an error"
+            )
+            Button(
+                onClick = { viewModel.retryApiCall(shelf.games) }
+            ) {
+                Text(
+                    "Retry"
+                )
+            }
+        } else {
+            ShelfDisplay(shelf, videoGames, navigateToGameView)
+            Button(
+                onClick = { viewModel.retryApiCall(shelf.games) }
+            ) {
+                Text(
+                    "Retry"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShelfDisplay(
+    shelf: Shelf,
+    videoGames: List<VideoGame>,
+    navigateToGameView: (Int) -> Unit
+) {
+    Text(
+        text = shelf.name,
+        style = GameShelfTitle,
+        modifier = Modifier.padding(bottom = AppSize.spacingSmall)
+    )
+    LazyRow {
+        item {
+            videoGames.forEach { videoGame ->
+//                Text(
+//                    text = videoGame.toString(),
+//                    style = GameCardTitle,
+//                    modifier = Modifier.padding(AppSize.spacingTiny)
+//                )
+                GameCard(
+                    navigateToGameView = navigateToGameView,
+                    videoGame = videoGame
+                )
             }
         }
     }
@@ -72,7 +124,7 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
         ) {
             // Background image filling the entire card
             AsyncImage(
-                model = videoGame.cover.url,
+                model = "https:${videoGame.cover.url}",
                 contentDescription = "VideoGame cover",
                 contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
                 modifier = Modifier.fillMaxSize()

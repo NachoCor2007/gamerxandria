@@ -67,7 +67,7 @@ private fun VideoGameInformation(videoGame: VideoGame) {
                 modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
-                text = videoGame.first_release_date,
+                text = videoGame.first_release_date.toString(),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(AppSize.contentPadding)
             )
@@ -97,7 +97,7 @@ private fun VideoGameInformation(videoGame: VideoGame) {
                 modifier = Modifier.padding(AppSize.contentPadding)
             )
             Text(
-                text = videoGame.summary,
+                text = videoGame.summary.toString(),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(AppSize.contentPadding)
             )
