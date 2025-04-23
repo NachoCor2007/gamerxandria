@@ -11,6 +11,11 @@ data class VideoGame(
     val summary: String,
 )
 
+data class VideoGameName(
+    val id: Int,
+    val name: String
+)
+
 data class Cover(
     val id: Int,
     val url: String
