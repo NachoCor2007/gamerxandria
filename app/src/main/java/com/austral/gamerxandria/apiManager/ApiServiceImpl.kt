@@ -92,7 +92,7 @@ class ApiServiceImpl @Inject constructor() {
         val call: Call<List<VideoGame>> = service.getGames(
             clientId = context.getString(R.string.client_id),
             authorization = context.getString(R.string.access_token),
-            requestBody = RequestBody.create(MediaType.parse("text/plain"), "fields name, cover.url, platforms.name, genres.name, involved_companies.company.name, summary, first_release_date;$requestExtraBody")
+            requestBody = RequestBody.create(MediaType.parse("text/plain"), "fields name, cover.url, platforms.name, genres.name, involved_companies.company.name, summary;$requestExtraBody")
         )
 
         call.enqueue(object : Callback<List<VideoGame>> {

@@ -69,13 +69,6 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
             }
         } else {
             ShelfDisplay(shelf, videoGames, navigateToGameView)
-            Button(
-                onClick = { viewModel.retryApiCall(shelf.games) }
-            ) {
-                Text(
-                    "Retry"
-                )
-            }
         }
     }
 }

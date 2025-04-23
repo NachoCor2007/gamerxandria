@@ -1,19 +1,64 @@
 package com.austral.gamerxandria.components
 
+import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.austral.gamerxandria.mock.VideoGameMock
+import com.austral.gamerxandria.apiManager.ApiServiceImpl
 import com.austral.gamerxandria.model.VideoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor() : ViewModel() {
-    private var _videoGames = MutableStateFlow(VideoGameMock)
-    val videoGames = _videoGames.asStateFlow()
+class GameViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val apiServiceImpl: ApiServiceImpl,
+    private val savedStateHandle: SavedStateHandle  // Add this parameter
+) : ViewModel() {
+    private var _videoGame = MutableStateFlow<VideoGame?>(null)
+    val videoGame = _videoGame.asStateFlow()
 
-    fun retrieveVideoGameById(id: Int): VideoGame? {
-        return videoGames.value.find { it.id == id }
+    private var _loading = MutableStateFlow(true)  // Start with loading state
+    val loading = _loading.asStateFlow()
+
+    private var _showRetry = MutableStateFlow(false)
+    val showRetry = _showRetry.asStateFlow()
+
+    init {
+        // Extract the ID from the navigation arguments
+        val videoGameId = savedStateHandle.get<String>("videoGameId")?.toIntOrNull()
+        if (videoGameId != null) {
+            loadVideoGame(videoGameId)
+        } else {
+            _loading.value = false
+        }
+    }
+
+    fun retryApiCall() {
+        val videoGameId = savedStateHandle.get<String>("videoGameId")?.toIntOrNull()
+        if (videoGameId != null) {
+            loadVideoGame(videoGameId)
+        }
+    }
+
+    private fun loadVideoGame(id: Int) {
+        _loading.value = true
+
+        apiServiceImpl.getVideoGameById(
+            id = id,
+            context = context,
+            onSuccess = { game ->
+                _videoGame.value = game
+                _showRetry.value = false
+            },
+            onFail = {
+                _showRetry.value = true
+            },
+            loadingFinished = {
+                _loading.value = false
+            }
+        )
     }
 }
