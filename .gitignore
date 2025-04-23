@@ -43,4 +43,4 @@ output/
 Thumbs.db
 
 # Sensitive files
-apiKeys.xml
+app/src/main/res/values/apiKeys.xml
