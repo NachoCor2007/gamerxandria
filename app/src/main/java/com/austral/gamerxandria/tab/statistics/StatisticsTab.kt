@@ -69,14 +69,14 @@ fun MenuHeader(
         if (isExpanded) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Completed",
+                contentDescription = "Opened menu",
                 tint = TextWhite,
                 modifier = Modifier.size(AppSize.iconSize)
             )
         } else {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Not Completed",
+                contentDescription = "Closed menu",
                 tint = TextWhite,
                 modifier = Modifier.size(AppSize.iconSize)
             )
