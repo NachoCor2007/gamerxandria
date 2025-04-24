@@ -17,7 +17,7 @@ class GameShelfViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val apiServiceImpl: ApiServiceImpl,
 ) : ViewModel() {
-    private var _videoGames = MutableStateFlow(listOf<VideoGame>())
+    private var _videoGames = MutableStateFlow(mapOf<String, List<VideoGame>>())
     val videoGames = _videoGames.asStateFlow()
 
     private var _loading = MutableStateFlow(false)
@@ -26,19 +26,21 @@ class GameShelfViewModel @Inject constructor(
     private var _showRetry = MutableStateFlow(false)
     val showRetry = _showRetry.asStateFlow()
 
-    fun retryApiCall(listOfVideoGamesIds: List<Int>) {
-        loadGames(listOfVideoGamesIds)
+    fun retryApiCall(shelfName: String, listOfVideoGamesIds: List<Int>) {
+        loadGames(shelfName, listOfVideoGamesIds)
     }
 
-    fun loadGames(listOfVideoGamesIds: List<Int>) {
+    fun loadGames(shelfName: String, listOfVideoGamesIds: List<Int>) {
         _loading.value = true
 
         apiServiceImpl.getVideoGamesByIds(
             listOfVideoGamesIds,
             context = context,
-            onSuccess = {
+            onSuccess = { videoGamesList ->
                 viewModelScope.launch {
-                    _videoGames.emit(it)
+                    _videoGames.value = _videoGames.value.toMutableMap().apply {
+                        this[shelfName] = videoGamesList
+                    }
                 }
 
                 _showRetry.value = false

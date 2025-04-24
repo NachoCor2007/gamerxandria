@@ -2,7 +2,6 @@ package com.austral.gamerxandria.tab.guess
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -275,7 +272,7 @@ fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
                         .padding(0.dp, 0.dp, 0.dp, AppSize.spacingSmall)
                         .background(backgroundColor)
                         .padding(AppSize.contentPadding),
-                    color = androidx.compose.ui.graphics.Color.Black,
+                    color = Color.Black,
                     style = MaterialTheme.typography.bodyMedium
                 )
 

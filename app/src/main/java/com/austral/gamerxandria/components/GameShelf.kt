@@ -36,13 +36,11 @@ import com.austral.gamerxandria.ui.theme.CardBackground
 
 @Composable
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
-    val viewModel = hiltViewModel<GameShelfViewModel>(
-        key = "shelf_${shelf.name}"
-    )
+    val viewModel = hiltViewModel<GameShelfViewModel>()
 
     // Load games for this specific shelf when the composable first launches
     LaunchedEffect(shelf.games) {
-        if (shelf.games.isNotEmpty()){ viewModel.loadGames(shelf.games) }
+        if (shelf.games.isNotEmpty()){ viewModel.loadGames(shelf.name, shelf.games) }
     }
 
     val videoGames = viewModel.videoGames.collectAsStateWithLifecycle().value
@@ -64,14 +62,16 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
                 "There was an error"
             )
             Button(
-                onClick = { viewModel.retryApiCall(shelf.games) }
+                onClick = {
+//                    viewModel.retryApiCall(shelf.name, shelf.games)
+                }
             ) {
                 Text(
                     "Retry"
                 )
             }
         } else {
-            ShelfDisplay(shelf, videoGames, navigateToGameView)
+            ShelfDisplay(shelf, videoGames[shelf.name], navigateToGameView)
         }
     }
 }
@@ -79,7 +79,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
 @Composable
 private fun ShelfDisplay(
     shelf: Shelf,
-    videoGames: List<VideoGame>,
+    videoGames: List<VideoGame>?,
     navigateToGameView: (Int) -> Unit
 ) {
     Text(
@@ -89,7 +89,7 @@ private fun ShelfDisplay(
     )
     LazyRow {
         item {
-            if (videoGames.isEmpty()) {
+            if (videoGames.isNullOrEmpty()) {
                 Box(
                     modifier = Modifier
                         .padding(AppSize.spacingTiny)
@@ -104,19 +104,20 @@ private fun ShelfDisplay(
                         textAlign = TextAlign.Center
                     )
                 }
-            }
-
-            videoGames.forEach { videoGame ->
+            } else {
+                videoGames.forEach { videoGame ->
 //                Text(
 //                    text = videoGame.toString(),
 //                    style = GameCardTitle,
 //                    modifier = Modifier.padding(AppSize.spacingTiny)
 //                )
-                GameCard(
-                    navigateToGameView = navigateToGameView,
-                    videoGame = videoGame
-                )
+                    GameCard(
+                        navigateToGameView = navigateToGameView,
+                        videoGame = videoGame
+                    )
+                }
             }
+
         }
     }
 }
