@@ -3,44 +3,53 @@ package com.austral.gamerxandria.tab.search
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.austral.gamerxandria.components.GameShelf
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.austral.gamerxandria.components.GameCard
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.CardBackground
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchTab(navigateToGameView: (Int) -> Unit) {
-    val modelView = hiltViewModel<SearchViewModel>()
+    val viewModel = hiltViewModel<SearchViewModel>()
+    val videoGames = viewModel.videoGames.collectAsStateWithLifecycle().value
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         SimpleSearchBar(
-            textFieldState = TextFieldState(),
-            onSearch = { /* Handle search */ },
-            searchResults = listOf("Result 1", "Result 2", "Result 3"),
+            onQueryChange = { query ->
+                viewModel.searchVideoGamesNames(query)
+                       },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(AppSize.contentPadding)
         )
-        LazyColumn {
-            val shelves = modelView.retrieveShelves()
-
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             item {
-                shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf) }
+                FlowRow { videoGames.forEach { shelf -> GameCard(navigateToGameView, shelf) } }
             }
         }
     }
@@ -49,11 +58,10 @@ fun SearchTab(navigateToGameView: (Int) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSearchBar(
-    textFieldState: TextFieldState,
-    onSearch: (String) -> Unit,
-    searchResults: List<String>,
+    onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var searchText by remember { mutableStateOf("") }
     // Controls expansion state of the search bar
     var expanded = false
 
@@ -69,11 +77,10 @@ fun SimpleSearchBar(
             ),
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = textFieldState.text.toString(),
-                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
+                    query = searchText,
+                    onQueryChange = { searchText = it },
                     onSearch = {
-                        onSearch(textFieldState.text.toString())
-                        expanded = false
+                        onQueryChange(it)
                     },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
@@ -82,21 +89,6 @@ fun SimpleSearchBar(
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
-        ) {
-            // Display search results in a scrollable column
-            Column {
-                searchResults.forEach { result ->
-                    ListItem(
-                        headlineContent = { Text(result) },
-                        modifier = Modifier
-                            .clickable {
-                                textFieldState.edit { replace(0, length, result) }
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                    )
-                }
-            }
-        }
+        ) {}
     }
 }

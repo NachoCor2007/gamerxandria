@@ -66,12 +66,12 @@ class ApiServiceImpl @Inject constructor() {
         onFail: () -> Unit,
         loadingFinished: () -> Unit
     ) {
-        val requestExtraBody = "search \"%$name%\";"
+        val requestExtraBody = if (name.isBlank()) { ""} else { "search \"%$name%\";" }
         getGames(
             requestExtraBody = requestExtraBody,
             context = context,
             onSuccess = {
-                onSuccess(it.map {it.cover.url = it.cover.url.replace("t_thumb", "t_720p"); it})
+                onSuccess(it.map { if (it.cover != null) { it.cover.url = it.cover.url.replace("t_thumb", "t_720p") }; it})
             },
             onFail = onFail,
             loadingFinished = loadingFinished

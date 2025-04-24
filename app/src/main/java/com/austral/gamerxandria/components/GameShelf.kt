@@ -63,7 +63,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
             )
             Button(
                 onClick = {
-//                    viewModel.retryApiCall(shelf.name, shelf.games)
+                    viewModel.retryApiCall(shelf.name, shelf.games)
                 }
             ) {
                 Text(

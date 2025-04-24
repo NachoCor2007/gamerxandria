@@ -9,25 +9,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.ButtonRed
 import com.austral.gamerxandria.ui.theme.CardBackground
 import com.austral.gamerxandria.ui.theme.GameViewTitle
 import java.time.Instant
@@ -60,13 +71,13 @@ fun GameView(videoGameId: Int) {
     } else {
         when (videoGame) {
             null -> NotFound("VideoGame not found. id: $videoGameId")
-            else -> VideoGameInformation(videoGame)
+            else -> VideoGameInformation(videoGame, viewModel)
         }
     }
 }
 
 @Composable
-private fun VideoGameInformation(videoGame: VideoGame) {
+private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel) {
     Column {
         VideoGameTitle(videoGame)
 
@@ -89,11 +100,8 @@ private fun VideoGameInformation(videoGame: VideoGame) {
                 )
             }
 
-            Text(
-                text = "Game status",
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.padding(AppSize.contentPadding)
-            )
+            ShelfManagementButton(videoGame, viewModel)
+
             Text(
                 text = formatUnixTimestamp(videoGame.first_release_date),
                 style = MaterialTheme.typography.bodyMedium,
@@ -114,6 +122,107 @@ private fun VideoGameInformation(videoGame: VideoGame) {
             )
         }
     }
+}
+
+@Composable
+private fun ShelfManagementButton(videoGame: VideoGame, viewModel: GameViewModel) {
+    var showDialog by remember { mutableStateOf(false) }
+    val shelves = viewModel.shelves.collectAsStateWithLifecycle().value
+
+    Button(
+        onClick = { showDialog = true },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(AppSize.contentPadding)
+    ) {
+        Text("Manage Game Shelves")
+    }
+
+    if (showDialog) {
+        ShelfManagementDialog(
+            videoGame = videoGame,
+            shelves = shelves,
+            onDismiss = { showDialog = false },
+            onSave = { updatedSelections ->
+                // Call a new function in ViewModel to update the shelves
+                viewModel.updateGameShelves(videoGame.id, updatedSelections)
+                showDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+private fun ShelfManagementDialog(
+    videoGame: VideoGame,
+    shelves: List<Shelf>,
+    onDismiss: () -> Unit,
+    onSave: (Map<String, Boolean>) -> Unit
+) {
+    // Create a map to track which shelves contain this game (using shelf name as the key)
+    val shelfSelections = remember {
+        mutableStateOf(shelves.associate { shelf ->
+            shelf.name to (shelf.games.any { it == videoGame.id })
+        })
+    }
+
+    AlertDialog(
+        containerColor = MaterialTheme.colorScheme.surface,
+        onDismissRequest = onDismiss,
+        title = { Text(style =
+            MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            text = "Manage Shelves") },
+        text = {
+            Column {
+                Text(
+                    "Select shelves for \"${videoGame.name}\":",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(bottom = AppSize.spacingMedium)
+                )
+
+                shelves.forEach { shelf ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    ) {
+                        Checkbox(
+                            checked = shelfSelections.value[shelf.name] ?: false,
+                            onCheckedChange = { isChecked ->
+                                shelfSelections.value = shelfSelections.value.toMutableMap().apply {
+                                    put(shelf.name, isChecked)
+                                }
+                            }
+                        )
+                        Text(
+                            text = shelf.name,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onSave(shelfSelections.value) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = ButtonRed
+                )
+            ) {
+                Text("Save")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Composable
