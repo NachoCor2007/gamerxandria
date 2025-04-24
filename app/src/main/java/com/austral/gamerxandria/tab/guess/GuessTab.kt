@@ -3,17 +3,22 @@ package com.austral.gamerxandria.tab.guess
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,6 +43,7 @@ import com.austral.gamerxandria.ui.theme.AccentPurple
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.ButtonRed
 import com.austral.gamerxandria.ui.theme.CardBackgroundDark
+import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
 import com.austral.gamerxandria.ui.theme.StatusCorrect
 import com.austral.gamerxandria.ui.theme.StatusNear
 import com.austral.gamerxandria.ui.theme.StatusWrong
@@ -86,15 +92,28 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
 
     val searchResults = viewModel.searchResults.collectAsStateWithLifecycle().value
 
-    Column(modifier = Modifier.clip(MaterialTheme.shapes.medium)) {
-        AsyncImage(
-            model = "https:${videoGame.cover.url}",
-            contentDescription = "VideoGame cover",
-            alignment = Alignment.Center,
-            modifier = Modifier
-                .height(256.dp)
-                .fillMaxWidth()
-        )
+    Column {
+        if (videoGame.cover != null) {
+            AsyncImage(
+                model = "https:${videoGame.cover.url}",
+                contentDescription = "VideoGame cover",
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .height(256.dp)
+                    .fillMaxWidth()
+            )
+        } else {
+            Box(Modifier
+                .background(InactiveTabColorLight)
+                .height(256.dp).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = Icons.Default.SportsEsports,
+                    contentDescription = "Opened menu",
+                    tint = TextWhite,
+                    modifier = Modifier.size(64.dp)
+                )
+            }
+        }
 
         Text(
             text = "Remaining tries: ${remainingTries.intValue}",
@@ -247,10 +266,11 @@ enum class GuessStatus {
 @Composable
 fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
     val hints = listOf(
-        "Hint 1: The genre is ${videoGame.genres.joinToString { it.name }}",
-        "Hint 2: The game is available on ${videoGame.platforms.joinToString { it.name }}",
-        "Hint 3: Developed by ${videoGame.involved_companies.joinToString { it.company.name }}",
-        "Hint 4: The game was released in ${formatUnixTimestamp(videoGame.first_release_date).split(" ")[0]}",
+        "Hint 1: The genre is ${videoGame.genres?.joinToString { it.name }}",
+        "Hint 2: The game is available on ${videoGame.platforms?.joinToString { it.name }}",
+        "Hint 3: Developed by ${videoGame.involved_companies?.joinToString { it.company.name }}",
+        "Hint 4: The game was released in ${
+            videoGame.first_release_date?.let { formatUnixTimestamp(it) }?.split(" ")[0]}",
         "Better luck next time!"
     )
 

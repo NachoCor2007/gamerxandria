@@ -28,7 +28,7 @@ class ApiServiceImpl @Inject constructor() {
             requestExtraBody = requestExtraBody,
             context = context,
             onSuccess = {
-                onSuccess(it.map {it.cover.url = it.cover.url.replace("t_thumb", "t_720p"); it})
+                onSuccess(it.map { it.cover?.url = it.cover.url.replace("t_thumb", "t_720p"); it})
                         },
             onFail = onFail,
             loadingFinished = loadingFinished
@@ -48,7 +48,9 @@ class ApiServiceImpl @Inject constructor() {
             context = context,
             onSuccess = { games ->
                 if (games.isNotEmpty()) {
-                    games[0].cover.url = games[0].cover.url.replace("t_thumb", "t_720p")
+                    if (games[0].cover != null) {
+                        games[0].cover?.url = games[0].cover?.url?.replace("t_thumb", "t_720p").toString()
+                    }
                     onSuccess(games[0])
                 } else {
                     onFail()

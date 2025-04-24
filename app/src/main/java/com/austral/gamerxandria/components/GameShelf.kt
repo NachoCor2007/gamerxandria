@@ -1,5 +1,6 @@
 package com.austral.gamerxandria.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.ui.theme.AppSize
@@ -33,6 +39,7 @@ import com.austral.gamerxandria.ui.theme.GameCardTitle
 import com.austral.gamerxandria.ui.theme.GameShelfTitle
 import com.austral.gamerxandria.ui.theme.TextWhite
 import com.austral.gamerxandria.ui.theme.CardBackground
+import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
 
 @Composable
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
@@ -94,7 +101,8 @@ private fun ShelfDisplay(
                     modifier = Modifier
                         .padding(AppSize.spacingTiny)
                         .height(AppSize.gameCardSize)
-                        .width(AppSize.gameCardSize * 2).background(CardBackground),
+                        .width(AppSize.gameCardSize * 2)
+                        .background(CardBackground),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -137,12 +145,23 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
             modifier = Modifier.fillMaxSize()
         ) {
             // Background image filling the entire card
-            AsyncImage(
-                model = "https:${videoGame.cover.url}",
-                contentDescription = "VideoGame cover",
-                contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
-                modifier = Modifier.fillMaxSize()
-            )
+            if (videoGame.cover != null) {
+                AsyncImage(
+                    model = "https:${videoGame.cover.url}",
+                    contentDescription = "VideoGame cover",
+                    contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Box(Modifier.background(InactiveTabColorLight).fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.SportsEsports,
+                        contentDescription = "Opened menu",
+                        tint = TextWhite,
+                        modifier = Modifier.size(64.dp)
+                    )
+                }
+            }
 
             // Semi-transparent overlay to make text more readable
             Box(

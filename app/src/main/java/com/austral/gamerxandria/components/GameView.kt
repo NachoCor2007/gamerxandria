@@ -1,6 +1,8 @@
 package com.austral.gamerxandria.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -41,6 +46,8 @@ import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.ButtonRed
 import com.austral.gamerxandria.ui.theme.CardBackground
 import com.austral.gamerxandria.ui.theme.GameViewTitle
+import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
+import com.austral.gamerxandria.ui.theme.TextWhite
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -92,21 +99,36 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
                     containerColor = CardBackground
                 )
             ) {
-                AsyncImage(
-                    model = "https:${videoGame.cover.url}",
-                    contentDescription = "VideoGame cover",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+                if (videoGame.cover != null && videoGame.cover.url != null) {
+                    AsyncImage(
+                        model = "https:${videoGame.cover.url}",
+                        contentDescription = "VideoGame cover",
+                        contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Box(Modifier
+                        .background(InactiveTabColorLight)
+                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Default.SportsEsports,
+                            contentDescription = "Opened menu",
+                            tint = TextWhite,
+                            modifier = Modifier.size(64.dp)
+                        )
+                    }
+                }
             }
 
             ShelfManagementButton(videoGame, viewModel)
 
-            Text(
-                text = formatUnixTimestamp(videoGame.first_release_date),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(AppSize.contentPadding)
-            )
+            if (videoGame.first_release_date != null) {
+                Text(
+                    text = formatUnixTimestamp(videoGame.first_release_date),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(AppSize.contentPadding)
+                )
+            }
             PlatformsComponent(videoGame)
             GenresComponent(videoGame)
             InvolvedCompaniesComponent(videoGame)
@@ -233,7 +255,7 @@ private fun InvolvedCompaniesComponent(videoGame: VideoGame) {
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
-        videoGame.involved_companies.forEach { company ->
+        videoGame.involved_companies?.forEach { company ->
             Text(
                 text = "• ${company.company.name}",
                 style = MaterialTheme.typography.bodyMedium,
@@ -251,7 +273,7 @@ private fun GenresComponent(videoGame: VideoGame) {
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
-        videoGame.genres.forEach { genre ->
+        videoGame.genres?.forEach { genre ->
             Text(
                 text = "• ${genre.name}",
                 style = MaterialTheme.typography.bodyMedium,
@@ -269,7 +291,7 @@ private fun PlatformsComponent(videoGame: VideoGame) {
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
-        videoGame.platforms.forEach { platform ->
+        videoGame.platforms?.forEach { platform ->
             Text(
                 text = "• ${platform.name}",
                 style = MaterialTheme.typography.bodyMedium,
