@@ -20,7 +20,7 @@ class GameShelfViewModel @Inject constructor(
     private var _videoGames = MutableStateFlow(listOf<VideoGame>())
     val videoGames = _videoGames.asStateFlow()
 
-    private var _loading = MutableStateFlow(true)
+    private var _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
     private var _showRetry = MutableStateFlow(false)

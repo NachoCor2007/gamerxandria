@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import com.austral.gamerxandria.R
 import com.austral.gamerxandria.model.VideoGame
+import com.austral.gamerxandria.model.VideoGameName
 import com.squareup.okhttp.MediaType
 import com.squareup.okhttp.RequestBody
 import retrofit.Call
@@ -12,6 +13,7 @@ import retrofit.GsonConverterFactory
 import retrofit.Response
 import retrofit.Retrofit
 import javax.inject.Inject
+import kotlin.collections.map
 
 class ApiServiceImpl @Inject constructor() {
     fun getVideoGamesByIds(
@@ -25,7 +27,9 @@ class ApiServiceImpl @Inject constructor() {
         getGames(
             requestExtraBody = requestExtraBody,
             context = context,
-            onSuccess = onSuccess,
+            onSuccess = {
+                onSuccess(it.map {it.cover.url = it.cover.url.replace("t_thumb", "t_720p"); it})
+                        },
             onFail = onFail,
             loadingFinished = loadingFinished
         )
@@ -44,6 +48,7 @@ class ApiServiceImpl @Inject constructor() {
             context = context,
             onSuccess = { games ->
                 if (games.isNotEmpty()) {
+                    games[0].cover.url = games[0].cover.url.replace("t_thumb", "t_720p")
                     onSuccess(games[0])
                 } else {
                     onFail()
@@ -65,7 +70,29 @@ class ApiServiceImpl @Inject constructor() {
         getGames(
             requestExtraBody = requestExtraBody,
             context = context,
-            onSuccess = onSuccess,
+            onSuccess = {
+                onSuccess(it.map {it.cover.url = it.cover.url.replace("t_thumb", "t_720p"); it})
+            },
+            onFail = onFail,
+            loadingFinished = loadingFinished
+        )
+    }
+
+    fun searchVideoGamesNames(
+        guessedName: String,
+        context: Context,
+        onSuccess: (List<VideoGameName>) -> Unit,
+        onFail: () -> Unit,
+        loadingFinished: () -> Unit
+    ) {
+        val requestExtraBody = "search \"$guessedName\"; limit 10;"
+        getGames(
+            requestExtraBody = requestExtraBody,
+            context = context,
+            onSuccess = {games ->
+                val videoGameNames = games.map { VideoGameName(it.id, it.name) }
+                onSuccess(videoGameNames)
+            },
             onFail = onFail,
             loadingFinished = loadingFinished
         )

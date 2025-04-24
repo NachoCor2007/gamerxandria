@@ -18,7 +18,7 @@ data class VideoGameName(
 
 data class Cover(
     val id: Int,
-    val url: String
+    var url: String
 )
 
 data class Platform(

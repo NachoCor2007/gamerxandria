@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -19,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,7 +42,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
 
     // Load games for this specific shelf when the composable first launches
     LaunchedEffect(shelf.games) {
-        viewModel.loadGames(shelf.games)
+        if (shelf.games.isNotEmpty()){ viewModel.loadGames(shelf.games) }
     }
 
     val videoGames = viewModel.videoGames.collectAsStateWithLifecycle().value
@@ -86,6 +89,23 @@ private fun ShelfDisplay(
     )
     LazyRow {
         item {
+            if (videoGames.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .padding(AppSize.spacingTiny)
+                        .height(AppSize.gameCardSize)
+                        .width(AppSize.gameCardSize * 2).background(CardBackground),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No games found,\ngo search the library!",
+                        style = GameCardTitle,
+                        modifier = Modifier.padding(AppSize.spacingTiny),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
             videoGames.forEach { videoGame ->
 //                Text(
 //                    text = videoGame.toString(),

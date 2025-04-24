@@ -34,6 +34,7 @@ fun ShelfCreatorPopUp(
                 )
 
                 OutlinedTextField(
+                    singleLine = true,
                     value = text,
                     onValueChange = { text = it },
                     label = { Text("Enter text") },
