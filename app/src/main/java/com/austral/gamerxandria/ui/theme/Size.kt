@@ -18,7 +18,7 @@ object AppSize {
     val spacingXLarge = 32.dp
 
     // Component sizes
-    val gameCardSize = 192.dp
+    val gameCardSize = 180.dp
     val iconSize = 20.dp
     val buttonHeight = 48.dp
 
