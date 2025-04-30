@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,14 +28,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.ui.theme.AccentPurple
@@ -67,18 +67,18 @@ fun GuessTab() {
         )
     } else if (showRetry) {
         Text(
-            "There was an error"
+            stringResource(R.string.guess_tab_could_not_load_game)
         )
         Button(
             onClick = { viewModel.loadVideoGame(1022) }
         ) {
             Text(
-                "Retry"
+                stringResource(R.string.guess_tab_retry_button_text)
             )
         }
     } else {
         when (videoGame) {
-            null -> NotFound("Could not generate guessing game. Try again later.")
+            null -> NotFound(stringResource(R.string.guess_tab_error_message))
             else -> GuessingGame(viewModel, videoGame)
         }
     }
@@ -95,8 +95,8 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
     Column {
         if (videoGame.cover != null) {
             AsyncImage(
-                model = "https:${videoGame.cover.url}",
-                contentDescription = "VideoGame cover",
+                model = stringResource(R.string.prefix_for_url, videoGame.cover.url),
+                contentDescription = stringResource(R.string.videoGame_cover_desc),
                 alignment = Alignment.Center,
                 modifier = Modifier
                     .height(256.dp)
@@ -105,10 +105,11 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
         } else {
             Box(Modifier
                 .background(InactiveTabColorLight)
-                .height(256.dp).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                .height(256.dp)
+                .fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = Icons.Default.SportsEsports,
-                    contentDescription = "Opened menu",
+                    contentDescription = stringResource(R.string.game_cover_not_found),
                     tint = TextWhite,
                     modifier = Modifier.size(64.dp)
                 )
@@ -116,7 +117,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
         }
 
         Text(
-            text = "Remaining tries: ${remainingTries.intValue}",
+            text = stringResource(R.string.guess_tab_remaining_tries, remainingTries.intValue),
             modifier = Modifier.padding(AppSize.contentPadding),
             color = if (remainingTries.intValue > 0) TextWhite else StatusWrong,
             style = MaterialTheme.typography.bodyMedium
@@ -131,7 +132,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                         currentInput.value = it
                         viewModel.searchGames(it) // Trigger search on text change
                     },
-                    label = { Text("Enter your guess") },
+                    label = { Text(stringResource(R.string.guess_tab_guess_field)) },
                     modifier = Modifier
                         .width(250.dp)
                         .padding(AppSize.contentPadding),
@@ -219,7 +220,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                         .padding(AppSize.contentPadding),
                 ) {
                     Text(
-                        text = "Congratulations! You guessed the game!",
+                        text = stringResource(R.string.guess_tab_congratulations),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -266,12 +267,11 @@ enum class GuessStatus {
 @Composable
 fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
     val hints = listOf(
-        "Hint 1: The genre is ${videoGame.genres?.joinToString { it.name }}",
-        "Hint 2: The game is available on ${videoGame.platforms?.joinToString { it.name }}",
-        "Hint 3: Developed by ${videoGame.involved_companies?.joinToString { it.company.name }}",
-        "Hint 4: The game was released in ${
-            videoGame.first_release_date?.let { formatUnixTimestamp(it) }?.split(" ")[0]}",
-        "Better luck next time!"
+        stringResource(R.string.guess_tab_first_hint_prefix) + videoGame.genres?.joinToString { it.name },
+        stringResource(R.string.guess_tab_second_hint_prefix) + videoGame.platforms?.joinToString { it.name },
+        stringResource(R.string.guess_tab_third_hint_prefix) + videoGame.involved_companies?.joinToString { it.company.name },
+        stringResource(R.string.guess_tab_fourth_hint_prefix) + videoGame.first_release_date?.let { formatUnixTimestamp(it) }?.split(" ")[0],
+        stringResource(R.string.guess_tab_nice_try)
     )
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {

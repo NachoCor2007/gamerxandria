@@ -4,4 +4,18 @@
     <string name="search_tab_no_games_found">Couldn\'t find what you were looking for</string>
     <string name="search_tab_error_message">There was an error, try searching again</string>
     <string name="add_collection_fab_description">Add collection</string>
+    <string name="guess_tab_could_not_load_game">There was an error</string>
+    <string name="guess_tab_retry_button_text">Retry</string>
+    <string name="guess_tab_error_message">Could not generate guessing game. Try again later.</string>
+    <string name="videoGame_cover_desc">VideoGame cover</string>
+    <string name="prefix_for_url">https:%1$s</string>
+    <string name="game_cover_not_found">Opened menu</string>
+    <string name="guess_tab_remaining_tries">Remaining tries: %1$s</string>
+    <string name="guess_tab_guess_field">Enter your guess</string>
+    <string name="guess_tab_congratulations">Congratulations! You guessed the game!</string>
+    <string name="guess_tab_first_hint_prefix">Hint 1: The genre is %1$s</string>
+    <string name="guess_tab_second_hint_prefix">"Hint 2: The game is available on "</string>
+    <string name="guess_tab_third_hint_prefix">"Hint 3: Developed by "</string>
+    <string name="guess_tab_fourth_hint_prefix">"Hint 4: The game was released in "</string>
+    <string name="guess_tab_nice_try">Better luck next time!</string>
 </resources>
