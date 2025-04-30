@@ -22,9 +22,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.components.GameCard
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
@@ -58,11 +60,11 @@ fun SearchTab(navigateToGameView: (Int) -> Unit) {
             )
         } else if (showRetry) {
             Text(
-                "There was an error, try searching again"
+                stringResource(R.string.search_tab_error_message)
             )
         } else {
             when (videoGames) {
-                emptyList<VideoGame>() -> NotFound("Couldn't find what you were looking for")
+                emptyList<VideoGame>() -> NotFound(stringResource(R.string.search_tab_no_games_found))
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxWidth(),
@@ -107,7 +109,7 @@ fun SimpleSearchBar(
                     },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Search") }
+                    placeholder = { Text(stringResource(R.string.search_bar_placeholder)) }
                 )
             },
             expanded = expanded,

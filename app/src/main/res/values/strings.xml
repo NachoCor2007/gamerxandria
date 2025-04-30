@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gamerxandria</string>
+    <string name="search_bar_placeholder">Search</string>
+    <string name="search_tab_no_games_found">Couldn\'t find what you were looking for</string>
+    <string name="search_tab_error_message">There was an error, try searching again</string>
 </resources>
