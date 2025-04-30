@@ -16,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.austral.gamerxandria.components.GameShelf
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.ButtonRed
@@ -51,7 +53,7 @@ fun LibraryTab(navigateToGameView: (Int) -> Unit) {
         ) {
             Icon(
                 Icons.Default.Add,
-                "Add collection"
+                stringResource(R.string.add_collection_fab_description)
             )
         }
 
