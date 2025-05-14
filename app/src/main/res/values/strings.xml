@@ -24,4 +24,5 @@
     <string name="game_shelf_image_url_prefix">https:</string>
     <string name="game_shelf_cover_message">VideoGame cover</string>
     <string name="game_shelf_no_cover">No cover for video game</string>
+    <string name="nav_host_video_game_null">VideoGameId is null</string>
 </resources>

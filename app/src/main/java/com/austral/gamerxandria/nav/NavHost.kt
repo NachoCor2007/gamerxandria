@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.components.GameView
 import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.tab.guess.GuessTab
@@ -50,7 +52,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             val videoGameId: String? = backStackEntry.arguments?.getString("videoGameId")
 
             when (videoGameId) {
-                null -> NotFound("VideoGameId is null") // Handle null case
+                null -> NotFound(stringResource(R.string.nav_host_video_game_null)) // Handle null case
                 else -> GameView(videoGameId.toInt()) // Handle valid case
             }
         }
