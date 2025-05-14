@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -66,7 +67,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
             )
         } else if (showRetry) {
             Text(
-                "There was an error"
+                stringResource(R.string.game_shelf_could_not_load_video_games)
             )
             Button(
                 onClick = {
@@ -74,7 +75,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
                 }
             ) {
                 Text(
-                    "Retry"
+                    stringResource(R.string.retry)
                 )
             }
         } else {
@@ -106,7 +107,7 @@ private fun ShelfDisplay(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No games found,\ngo search the library!",
+                        text = stringResource(R.string.game_shelf_empty_message),
                         style = GameCardTitle,
                         modifier = Modifier.padding(AppSize.spacingTiny),
                         textAlign = TextAlign.Center
@@ -147,16 +148,18 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
             // Background image filling the entire card
             if (videoGame.cover != null) {
                 AsyncImage(
-                    model = "https:${videoGame.cover.url}",
-                    contentDescription = "VideoGame cover",
+                    model = stringResource(R.string.game_shelf_image_url_prefix) + videoGame.cover.url,
+                    contentDescription = stringResource(R.string.game_shelf_cover_message),
                     contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
                     modifier = Modifier.fillMaxSize()
                 )
             } else {
-                Box(Modifier.background(InactiveTabColorLight).fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(Modifier
+                    .background(InactiveTabColorLight)
+                    .fillMaxSize(), contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.SportsEsports,
-                        contentDescription = "Opened menu",
+                        contentDescription = stringResource(R.string.game_shelf_no_cover),
                         tint = TextWhite,
                         modifier = Modifier.size(64.dp)
                     )

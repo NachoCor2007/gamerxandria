@@ -18,4 +18,10 @@
     <string name="guess_tab_third_hint_prefix">"Hint 3: Developed by "</string>
     <string name="guess_tab_fourth_hint_prefix">"Hint 4: The game was released in "</string>
     <string name="guess_tab_nice_try">Better luck next time!</string>
+    <string name="game_shelf_could_not_load_video_games">There was an error</string>
+    <string name="retry">Retry</string>
+    <string name="game_shelf_empty_message">No games found,\ngo search the library!</string>
+    <string name="game_shelf_image_url_prefix">https:</string>
+    <string name="game_shelf_cover_message">VideoGame cover</string>
+    <string name="game_shelf_no_cover">No cover for video game</string>
 </resources>
