@@ -25,4 +25,12 @@
     <string name="game_shelf_cover_message">VideoGame cover</string>
     <string name="game_shelf_no_cover">No cover for video game</string>
     <string name="nav_host_video_game_null">VideoGameId is null</string>
+    <string name="game_view_id_not_found">"VideoGame not found. id: "</string>
+    <string name="game_view_summary">Summary</string>
+    <string name="game_view_shelf_management_message">Manage Game Shelves</string>
+    <string name="game_view_video_game_shelves">"Select shelves for "</string>
+    <string name="game_view_involved_companies">Involved Companies</string>
+    <string name="game_view_display_point_prefix">"• "</string>
+    <string name="game_view_genres">Genres</string>
+    <string name="game_view_platforms">Platforms</string>
 </resources>

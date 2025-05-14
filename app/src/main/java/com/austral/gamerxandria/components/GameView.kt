@@ -33,12 +33,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
@@ -66,18 +68,18 @@ fun GameView(videoGameId: Int) {
         )
     } else if (showRetry) {
         Text(
-            "There was an error"
+            stringResource(R.string.guess_tab_could_not_load_game)
         )
         Button(
             onClick = { viewModel.retryApiCall() }
         ) {
             Text(
-                "Retry"
+                stringResource(R.string.retry)
             )
         }
     } else {
         when (videoGame) {
-            null -> NotFound("VideoGame not found. id: $videoGameId")
+            null -> NotFound(stringResource(R.string.game_view_id_not_found) + videoGameId)
             else -> VideoGameInformation(videoGame, viewModel)
         }
     }
@@ -101,8 +103,8 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
             ) {
                 if (videoGame.cover != null && videoGame.cover.url != null) {
                     AsyncImage(
-                        model = "https:${videoGame.cover.url}",
-                        contentDescription = "VideoGame cover",
+                        model = stringResource(R.string.game_shelf_image_url_prefix) + videoGame.cover.url,
+                        contentDescription = stringResource(R.string.game_shelf_cover_message),
                         contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
                         modifier = Modifier.fillMaxSize()
                     )
@@ -112,7 +114,7 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
                         .fillMaxSize(), contentAlignment = Alignment.Center) {
                         Icon(
                             imageVector = Icons.Default.SportsEsports,
-                            contentDescription = "Opened menu",
+                            contentDescription = stringResource(R.string.game_shelf_no_cover),
                             tint = TextWhite,
                             modifier = Modifier.size(64.dp)
                         )
@@ -133,7 +135,7 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
             GenresComponent(videoGame)
             InvolvedCompaniesComponent(videoGame)
             Text(
-                text = "Summary",
+                text = stringResource(R.string.game_view_summary),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(AppSize.contentPadding)
             )
@@ -157,7 +159,7 @@ private fun ShelfManagementButton(videoGame: VideoGame, viewModel: GameViewModel
             .fillMaxWidth()
             .padding(AppSize.contentPadding)
     ) {
-        Text("Manage Game Shelves")
+        Text(stringResource(R.string.game_view_shelf_management_message))
     }
 
     if (showDialog) {
@@ -194,11 +196,11 @@ private fun ShelfManagementDialog(
         title = { Text(style =
             MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            text = "Manage Shelves") },
+            text = stringResource(R.string.game_view_shelf_management_message)) },
         text = {
             Column {
                 Text(
-                    "Select shelves for \"${videoGame.name}\":",
+                    stringResource(R.string.game_view_video_game_shelves) + "\"${videoGame.name}\"",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(bottom = AppSize.spacingMedium)
                 )
@@ -211,7 +213,7 @@ private fun ShelfManagementDialog(
                             .padding(vertical = 4.dp)
                     ) {
                         Checkbox(
-                            checked = shelfSelections.value[shelf.name] ?: false,
+                            checked = shelfSelections.value[shelf.name] == true,
                             onCheckedChange = { isChecked ->
                                 shelfSelections.value = shelfSelections.value.toMutableMap().apply {
                                     put(shelf.name, isChecked)
@@ -251,13 +253,13 @@ private fun ShelfManagementDialog(
 private fun InvolvedCompaniesComponent(videoGame: VideoGame) {
     Column {
         Text(
-            text = "Involved Companies",
+            text = stringResource(R.string.game_view_involved_companies),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
         videoGame.involved_companies?.forEach { company ->
             Text(
-                text = "• ${company.company.name}",
+                text = stringResource(R.string.game_view_display_point_prefix) + company.company.name,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
             )
@@ -269,13 +271,13 @@ private fun InvolvedCompaniesComponent(videoGame: VideoGame) {
 private fun GenresComponent(videoGame: VideoGame) {
     Column {
         Text(
-            text = "Genres",
+            text = stringResource(R.string.game_view_genres),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
         videoGame.genres?.forEach { genre ->
             Text(
-                text = "• ${genre.name}",
+                text = stringResource(R.string.game_view_display_point_prefix) + genre.name,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
             )
@@ -287,13 +289,13 @@ private fun GenresComponent(videoGame: VideoGame) {
 private fun PlatformsComponent(videoGame: VideoGame) {
     Column {
         Text(
-            text = "Platforms",
+            text = stringResource(R.string.game_view_platforms),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(AppSize.contentPadding)
         )
         videoGame.platforms?.forEach { platform ->
             Text(
-                text = "• ${platform.name}",
+                text = stringResource(R.string.game_view_display_point_prefix) + platform.name,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
             )
