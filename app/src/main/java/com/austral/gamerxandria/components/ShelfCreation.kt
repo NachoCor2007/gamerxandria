@@ -5,8 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
+import com.austral.gamerxandria.R
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.ButtonRed
 
@@ -28,7 +30,7 @@ fun ShelfCreatorPopUp(
                 verticalArrangement = Arrangement.spacedBy(AppSize.contentPadding)
             ) {
                 Text(
-                    text = "Add New Item",
+                    text = stringResource(R.string.shelf_creation_add_new),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -37,7 +39,7 @@ fun ShelfCreatorPopUp(
                     singleLine = true,
                     value = text,
                     onValueChange = { text = it },
-                    label = { Text("Enter text") },
+                    label = { Text(stringResource(R.string.shelf_creation_enter_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -49,7 +51,7 @@ fun ShelfCreatorPopUp(
                     TextButton(
                         onClick = onDismiss
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.shelf_creation_cancel))
                     }
 
                     Spacer(modifier = Modifier.width(AppSize.spacingSmall))
@@ -60,7 +62,7 @@ fun ShelfCreatorPopUp(
                             containerColor = ButtonRed
                         )
                     ) {
-                        Text("Create")
+                        Text(stringResource(R.string.shelf_creation_create))
                     }
                 }
             }

@@ -33,4 +33,8 @@
     <string name="game_view_display_point_prefix">"• "</string>
     <string name="game_view_genres">Genres</string>
     <string name="game_view_platforms">Platforms</string>
+    <string name="shelf_creation_add_new">Add new shelf</string>
+    <string name="shelf_creation_enter_name">Enter shelf name</string>
+    <string name="shelf_creation_cancel">Cancel</string>
+    <string name="shelf_creation_create">Create</string>
 </resources>
