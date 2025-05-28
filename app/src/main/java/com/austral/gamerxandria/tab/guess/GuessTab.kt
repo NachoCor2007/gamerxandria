@@ -30,6 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -101,6 +103,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                 modifier = Modifier
                     .height(256.dp)
                     .fillMaxWidth()
+                    .blur(100.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
             )
         } else {
             Box(Modifier
