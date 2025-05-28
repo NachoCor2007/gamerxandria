@@ -37,4 +37,8 @@
     <string name="shelf_creation_enter_name">Enter shelf name</string>
     <string name="shelf_creation_cancel">Cancel</string>
     <string name="shelf_creation_create">Create</string>
+    <string name="authentication_on_error_message">There was an error in the authentication.</string>
+    <string name="authentication_on_fail_message">The authentication failed, try again.</string>
+    <string name="authentication_required">You need to authenticate.</string>
+    <string name="biometric_not_available">Something went wrong during authentication. Try later.</string>
 </resources>
