@@ -8,7 +8,7 @@
     <string name="guess_tab_retry_button_text">Retry</string>
     <string name="guess_tab_error_message">Could not generate guessing game. Try again later.</string>
     <string name="videoGame_cover_desc">VideoGame cover</string>
-    <string name="prefix_for_url">https:%1$s</string>
+    <string name="prefix_for_url" translatable="false">https:%1$s</string>
     <string name="game_cover_not_found">Opened menu</string>
     <string name="guess_tab_remaining_tries">Remaining tries: %1$s</string>
     <string name="guess_tab_guess_field">Enter your guess</string>
@@ -21,7 +21,7 @@
     <string name="game_shelf_could_not_load_video_games">There was an error</string>
     <string name="retry">Retry</string>
     <string name="game_shelf_empty_message">No games found,\ngo search the library!</string>
-    <string name="game_shelf_image_url_prefix">https:</string>
+    <string name="game_shelf_image_url_prefix" translatable="false">https:</string>
     <string name="game_shelf_cover_message">VideoGame cover</string>
     <string name="game_shelf_no_cover">No cover for video game</string>
     <string name="nav_host_video_game_null">VideoGameId is null</string>
@@ -30,7 +30,7 @@
     <string name="game_view_shelf_management_message">Manage Game Shelves</string>
     <string name="game_view_video_game_shelves">"Select shelves for "</string>
     <string name="game_view_involved_companies">Involved Companies</string>
-    <string name="game_view_display_point_prefix">"• "</string>
+    <string name="game_view_display_point_prefix" translatable="false">"• "</string>
     <string name="game_view_genres">Genres</string>
     <string name="game_view_platforms">Platforms</string>
     <string name="shelf_creation_add_new">Add new shelf</string>
