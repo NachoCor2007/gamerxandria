@@ -9,7 +9,6 @@ import javax.inject.Inject
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricManager
 
-
 class BiometricAuthManager @Inject constructor() {
 
     fun authenticate(context: Context, onError: () -> Unit, onSuccess: () -> Unit, onFail: () -> Unit) {
