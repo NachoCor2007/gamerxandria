@@ -26,9 +26,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val TAG = "UserViewModel"
+const val TAG = "ProfileViewModel"
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     @ApplicationContext val context: Context
