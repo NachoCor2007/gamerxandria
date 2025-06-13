@@ -23,11 +23,13 @@ class NotificationReceiver : BroadcastReceiver() {
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
+        val shelfName = intent.getStringExtra("shelfName") ?: "Unknown Shelf"
+
         val notificationManager = context.getSystemService(NotificationManager::class.java)
 
         val notification = NotificationCompat.Builder(context, notificationChannelID)
-            .setContentTitle("Don't slack off now")
-            .setContentText("Remember to learn a little Android development today")
+            .setContentTitle(context.getString(R.string.saved_in_shelf_notif_message) + shelfName)
+            .setContentText(context.getString(R.string.saved_in_shelves_notif_message))
             .setSmallIcon(R.drawable.google_logo__streamline_ultimate)
             .setPriority(NotificationCompat.PRIORITY_HIGH) // Corrección aquí: usar NotificationCompat.PRIORITY_HIGH en lugar de NotificationManager.IMPORTANCE_HIGH
             .setContentIntent(pendingIntent)

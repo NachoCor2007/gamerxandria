@@ -170,7 +170,6 @@ private fun ShelfManagementButton(videoGame: VideoGame, viewModel: GameViewModel
             onSave = { updatedSelections ->
                 // Call a new function in ViewModel to update the shelves
                 viewModel.updateGameShelves(videoGame.id, updatedSelections)
-                viewModel.scheduleNotification()
                 showDialog = false
             }
         )

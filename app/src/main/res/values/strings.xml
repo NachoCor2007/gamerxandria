@@ -50,4 +50,6 @@
     <string name="user_profile_picture">User Profile Picture</string>
     <string name="your_name">"Your name: "</string>
     <string name="your_email">"Your email: "</string>
+    <string name="saved_in_shelves_notif_message">Videogame saved in your shelves!</string>
+    <string name="saved_in_shelf_notif_message">"Saved in "</string>
 </resources>

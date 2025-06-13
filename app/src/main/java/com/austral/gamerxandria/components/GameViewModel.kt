@@ -18,7 +18,6 @@ import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
 import com.austral.gamerxandria.notification.NotificationReceiver
 import kotlinx.coroutines.launch
-import android.os.Build
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -88,7 +87,7 @@ class GameViewModel @Inject constructor(
                             val updatedGames = shelf.games.toMutableList()
                             updatedGames.add(gameToAdd.id)
 
-//                            scheduleNotification()
+                            scheduleNotification(shelf.name)
 
                             shelf.copy(games = updatedGames)
                         } else {
@@ -109,14 +108,18 @@ class GameViewModel @Inject constructor(
     }
 
     @SuppressLint("ScheduleExactAlarm")
-    fun scheduleNotification() {
+    fun scheduleNotification(shelfName: String) {
         // Create an intent for the Notification BroadcastReceiver
-        val intent = Intent(context, NotificationReceiver::class.java)
+        val intent = Intent(context, NotificationReceiver::class.java).apply {
+            putExtra("shelfName", shelfName) // Pass the shelf name to the intent
+        }
+
+        val requestCode = System.currentTimeMillis().toInt()
 
         // Create a PendingIntent for the broadcast
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            0,
+            requestCode,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -125,10 +128,10 @@ class GameViewModel @Inject constructor(
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         // Get the selected time and schedule the notification
-        val time = 30000L
+        val triggerTimeMillis = 0L
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            time,
+            triggerTimeMillis,
             pendingIntent
         )
     }
