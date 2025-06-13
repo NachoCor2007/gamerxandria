@@ -78,6 +78,8 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.google.firebase.auth.ktx)
 
+    implementation(libs.accompanist.permissions)
+
     // Also add the dependencies for the Credential Manager libraries and specify their versions
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

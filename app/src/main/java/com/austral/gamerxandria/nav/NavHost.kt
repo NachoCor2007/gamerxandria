@@ -21,7 +21,7 @@ import com.austral.gamerxandria.tab.profile.ProfileTab
 import com.austral.gamerxandria.tab.search.SearchTab
 import com.austral.gamerxandria.ui.theme.AppSize
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(

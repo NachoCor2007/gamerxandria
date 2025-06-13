@@ -31,7 +31,7 @@ import com.austral.gamerxandria.R
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.google.firebase.auth.FirebaseUser
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
 fun ProfileTab() {
     Column(
