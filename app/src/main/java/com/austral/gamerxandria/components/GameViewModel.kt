@@ -1,6 +1,10 @@
 package com.austral.gamerxandria.components
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.austral.gamerxandria.apiManager.ApiServiceImpl
@@ -12,7 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
+import com.austral.gamerxandria.notification.NotificationReceiver
 import kotlinx.coroutines.launch
+import android.os.Build
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -81,6 +87,9 @@ class GameViewModel @Inject constructor(
                         if (gameToAdd != null) {
                             val updatedGames = shelf.games.toMutableList()
                             updatedGames.add(gameToAdd.id)
+
+//                            scheduleNotification()
+
                             shelf.copy(games = updatedGames)
                         } else {
                             shelf
@@ -97,5 +106,30 @@ class GameViewModel @Inject constructor(
 
             _shelves.value = updatedShelves
         }
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    fun scheduleNotification() {
+        // Create an intent for the Notification BroadcastReceiver
+        val intent = Intent(context, NotificationReceiver::class.java)
+
+        // Create a PendingIntent for the broadcast
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Get the AlarmManager service
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        // Get the selected time and schedule the notification
+        val time = 30000L
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingIntent
+        )
     }
 }

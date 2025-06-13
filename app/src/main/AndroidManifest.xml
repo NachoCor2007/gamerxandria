@@ -31,9 +31,9 @@
             </intent-filter>
         </activity>
 
-<!--        <receiver-->
-<!--            android:name=".notification.NotificationReceiver"-->
-<!--            android:enabled="true"/>-->
+        <receiver
+            android:name=".notification.NotificationReceiver"
+            android:enabled="true"/>
     </application>
 
 </manifest>
