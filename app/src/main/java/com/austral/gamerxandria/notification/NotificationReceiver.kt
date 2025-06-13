@@ -30,8 +30,8 @@ class NotificationReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, notificationChannelID)
             .setContentTitle(context.getString(R.string.saved_in_shelf_notif_message) + shelfName)
             .setContentText(context.getString(R.string.saved_in_shelves_notif_message))
-            .setSmallIcon(R.drawable.google_logo__streamline_ultimate)
-            .setPriority(NotificationCompat.PRIORITY_HIGH) // Corrección aquí: usar NotificationCompat.PRIORITY_HIGH en lugar de NotificationManager.IMPORTANCE_HIGH
+            .setSmallIcon(R.drawable.office_shelf_1__streamline_ultimate)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
