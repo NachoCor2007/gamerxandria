@@ -83,7 +83,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
 }
 
 @Composable
-private fun ShelfDisplay(
+fun ShelfDisplay(
     shelf: Shelf,
     videoGames: List<VideoGame>?,
     navigateToGameView: (Int) -> Unit
