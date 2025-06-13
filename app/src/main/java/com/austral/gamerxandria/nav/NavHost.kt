@@ -1,5 +1,7 @@
 package com.austral.gamerxandria.nav
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,10 +17,11 @@ import com.austral.gamerxandria.components.GameView
 import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.tab.guess.GuessTab
 import com.austral.gamerxandria.tab.library.LibraryTab
+import com.austral.gamerxandria.tab.profile.ProfileTab
 import com.austral.gamerxandria.tab.search.SearchTab
-import com.austral.gamerxandria.tab.statistics.StatisticsTab
 import com.austral.gamerxandria.ui.theme.AppSize
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(
@@ -44,7 +47,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             GuessTab()
         }
         composable(route = GamerxandriaNouns.Profile.name) {
-            StatisticsTab()
+            ProfileTab()
         }
 
 //      Game display route.

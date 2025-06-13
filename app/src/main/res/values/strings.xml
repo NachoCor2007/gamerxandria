@@ -41,4 +41,13 @@
     <string name="authentication_on_fail_message">The authentication failed, try again.</string>
     <string name="authentication_required">Welcome to your library view!\n Make sure to authenticate in order to access it.</string>
     <string name="biometric_not_available">Something went wrong during authentication. Try later.</string>
+    <string name="error_retrieving_credentials">"Couldn't retrieve user's credentials: "</string>
+    <string name="not_login_with_google">Credential is not of type Google ID!</string>
+    <string name="google_sign_in_success">signInWithCredential:success</string>
+    <string name="google_sign_in_failure">signInWithCredential:failure</string>
+    <string name="error_logout">"Couldn't clear user credentials: "</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="user_profile_picture">User Profile Picture</string>
+    <string name="your_name">"Your name: "</string>
+    <string name="your_email">"Your email: "</string>
 </resources>

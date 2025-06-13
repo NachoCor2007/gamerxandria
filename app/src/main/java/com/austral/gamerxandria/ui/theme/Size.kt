@@ -16,6 +16,8 @@ object AppSize {
     val spacingMedium = 16.dp
     val spacingLarge = 24.dp
     val spacingXLarge = 32.dp
+    val spacingXXLarge = 48.dp
+    val spacingXXXLarge = 64.dp
 
     // Component sizes
     val gameCardSize = 180.dp

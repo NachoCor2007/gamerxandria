@@ -64,7 +64,7 @@ class ProfileViewModel @Inject constructor(
                 // Extract credential from the result returned by Credential Manager
                 handleSignIn(result.credential)
             } catch (e: GetCredentialException) {
-                Log.e(TAG, "Couldn't retrieve user's credentials: ${e.localizedMessage}")
+                Log.e(TAG, context.getString(R.string.error_retrieving_credentials) + e.localizedMessage)
             }
         }
     }
@@ -78,7 +78,7 @@ class ProfileViewModel @Inject constructor(
             // Sign in to Firebase with using the token
             firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
         } else {
-            Log.w(TAG, "Credential is not of type Google ID!")
+            Log.w(TAG, context.getString(R.string.not_login_with_google))
         }
     }
 
@@ -88,7 +88,7 @@ class ProfileViewModel @Inject constructor(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
+                    Log.d(TAG, context.getString(R.string.google_sign_in_success))
                     val user = auth.currentUser
                     viewModelScope.launch {
                         _userData.emit(user)
@@ -98,7 +98,7 @@ class ProfileViewModel @Inject constructor(
                     viewModelScope.launch {
                         _userData.emit(null)
                     }
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Log.w(TAG, context.getString(R.string.google_sign_in_failure), task.exception)
                 }
             }
     }
@@ -116,7 +116,7 @@ class ProfileViewModel @Inject constructor(
                     _userData.emit(null)
                 }
             } catch (e: ClearCredentialException) {
-                Log.e(TAG, "Couldn't clear user credentials: ${e.localizedMessage}")
+                Log.e(TAG, context.getString(R.string.error_logout) + e.localizedMessage)
             }
         }
     }
