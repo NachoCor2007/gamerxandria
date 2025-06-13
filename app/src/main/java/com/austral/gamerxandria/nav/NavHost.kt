@@ -43,7 +43,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         composable(route = GamerxandriaNouns.Guess.name) {
             GuessTab()
         }
-        composable(route = GamerxandriaNouns.Statistics.name) {
+        composable(route = GamerxandriaNouns.Profile.name) {
             StatisticsTab()
         }
 

@@ -1,11 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-
-//  Added plugins.
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+    alias(libs.plugins.compose.compiler)
     id("com.google.gms.google-services")
 }
 
@@ -54,6 +52,36 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    kapt(libs.hilt.android.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.biometric)
+
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.google.firebase.auth.ktx)
+
+    // Also add the dependencies for the Credential Manager libraries and specify their versions
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -62,25 +90,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-//  Added dependencies.
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    implementation(libs.coil.compose)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-
-    implementation(libs.androidx.biometric)
-
-    implementation(libs.androidx.datastore.preferences)
-
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
 }

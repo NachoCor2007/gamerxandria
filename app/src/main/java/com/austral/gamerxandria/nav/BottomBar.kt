@@ -1,10 +1,14 @@
 package com.austral.gamerxandria.nav
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.automirrored.outlined.Help
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Help
@@ -33,10 +37,10 @@ fun BottomBar(
 ) {
     val libraryTab = TabBarItem(title = GamerxandriaNouns.Library.name, selectedIcon = Icons.Filled.Favorite, unselectedIcon = Icons.Outlined.FavoriteBorder)
     val searchTab = TabBarItem(title = GamerxandriaNouns.Search.name, selectedIcon = Icons.Filled.Search, unselectedIcon = Icons.Outlined.Search)
-    val guessTab = TabBarItem(title = GamerxandriaNouns.Guess.name, selectedIcon = Icons.Filled.Help, unselectedIcon = Icons.Outlined.Help)
-    val statisticsTab = TabBarItem(title = GamerxandriaNouns.Statistics.name, selectedIcon = Icons.Filled.Analytics, unselectedIcon = Icons.Outlined.Analytics)
+    val guessTab = TabBarItem(title = GamerxandriaNouns.Guess.name, selectedIcon = Icons.AutoMirrored.Filled.Help, unselectedIcon = Icons.AutoMirrored.Outlined.Help)
+    val profileTab = TabBarItem(title = GamerxandriaNouns.Profile.name, selectedIcon = Icons.Filled.AccountCircle, unselectedIcon = Icons.Outlined.AccountCircle)
 
-    val tabBarItems = listOf<TabBarItem>(libraryTab, searchTab, guessTab, statisticsTab)
+    val tabBarItems = listOf<TabBarItem>(libraryTab, searchTab, guessTab, profileTab)
 
     TabView(tabBarItems, onNavigate)
 }

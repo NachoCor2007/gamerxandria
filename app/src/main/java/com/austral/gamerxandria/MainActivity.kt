@@ -11,12 +11,16 @@ import androidx.navigation.compose.rememberNavController
 import com.austral.gamerxandria.nav.BottomBar
 import com.austral.gamerxandria.nav.NavHostComposable
 import com.austral.gamerxandria.ui.theme.GamerxandriaTheme
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseApp.initializeApp(this)
+
         enableEdgeToEdge()
         setContent {
             GamerxandriaTheme {
