@@ -11,6 +11,7 @@ import androidx.compose.ui.window.Dialog
 import com.austral.gamerxandria.R
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.ButtonRed
+import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,5 +68,19 @@ fun ShelfCreatorPopUp(
                 }
             }
         }
+    }
+}
+
+/**
+ * Preview del diálogo de creación de estanterías
+ */
+@Preview(showBackground = true)
+@Composable
+fun ShelfCreatorPopUpPreview() {
+    MaterialTheme {
+        ShelfCreatorPopUp(
+            onDismiss = {},
+            onConfirm = {}
+        )
     }
 }

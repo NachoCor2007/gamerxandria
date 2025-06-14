@@ -38,6 +38,10 @@ import com.austral.gamerxandria.ui.theme.GameShelfTitle
 import com.austral.gamerxandria.ui.theme.TextWhite
 import com.austral.gamerxandria.ui.theme.CardBackground
 import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.Surface
+import com.austral.gamerxandria.mock.VideoGameMock
+import com.austral.gamerxandria.mock.userShelvesMock
 
 @Composable
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
@@ -180,5 +184,57 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
                     .padding(AppSize.contentPadding)
             )
         }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 360)
+@Composable
+fun ShelfDisplayPreview() {
+    val mockVideoGames = listOf(VideoGameMock[0], VideoGameMock[1])
+
+    Surface {
+        ShelfDisplay(
+            shelf = userShelvesMock[0],
+            videoGames = mockVideoGames,
+            navigateToGameView = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameCardPreview() {
+    val mockVideoGame = VideoGameMock[0]
+
+    Surface {
+        GameCard(
+            navigateToGameView = {},
+            videoGame = mockVideoGame
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameCardNoImagePreview() {
+    val mockVideoGame = VideoGameMock[1]
+
+    Surface {
+        GameCard(
+            navigateToGameView = {},
+            videoGame = mockVideoGame
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 360)
+@Composable
+fun EmptyShelfDisplayPreview() {
+    Surface {
+        ShelfDisplay(
+            shelf = userShelvesMock[1],
+            videoGames = emptyList(),
+            navigateToGameView = {}
+        )
     }
 }
