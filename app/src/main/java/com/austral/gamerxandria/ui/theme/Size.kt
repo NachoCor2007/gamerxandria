@@ -4,6 +4,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object AppSize {
+    // No space
+    val noSpace = 0.dp
+
     // Text sizes
     val textTiny = 11.sp
     val textSmall = 16.sp
@@ -31,4 +34,11 @@ object AppSize {
 
     // Radius
     val cardRadius = 8.dp
+
+    // Border
+    val borderWidth = 1.dp
+
+    // Guess image sizes
+    val guessImageHeight = 256.dp
+    val resultsHeight = 250.dp
 }

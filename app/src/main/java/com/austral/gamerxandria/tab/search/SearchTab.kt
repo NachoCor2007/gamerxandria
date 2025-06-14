@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.austral.gamerxandria.R
@@ -56,7 +55,7 @@ fun SearchTab(navigateToGameView: (Int) -> Unit) {
         if (loading) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(AppSize.spacingXXLarge)
             )
         } else if (showRetry) {
             Text(

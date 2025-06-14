@@ -29,7 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import com.austral.gamerxandria.ui.theme.AppSize
-import com.austral.gamerxandria.ui.theme.LocalGamerxandriaColors
 
 @Composable
 fun BottomBar(
@@ -58,11 +57,11 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
-    val colors = LocalGamerxandriaColors.current
+    val colors = MaterialTheme.colorScheme
 
     NavigationBar(
-        containerColor = colors.cardBackground,
-        contentColor = colors.textPrimary,
+        containerColor = colors.background,
+        contentColor = colors.secondary,
         tonalElevation = AppSize.spacingTiny
     ) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
@@ -89,11 +88,11 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = colors.textPrimary,
-                    selectedTextColor = colors.textPrimary,
-                    indicatorColor = colors.activeTabColor,
-                    unselectedIconColor = colors.textPrimary.copy(alpha = 0.7f),
-                    unselectedTextColor = colors.textPrimary.copy(alpha = 0.7f)
+                    selectedIconColor = colors.primary,
+                    selectedTextColor = colors.primary,
+                    indicatorColor = colors.secondary,
+                    unselectedIconColor = colors.primary.copy(alpha = 0.7f),
+                    unselectedTextColor = colors.primary.copy(alpha = 0.7f)
                 )
             )
         }
@@ -108,13 +107,13 @@ fun TabBarIconView(
     title: String,
     badgeAmount: Int? = null
 ) {
-    val colors = LocalGamerxandriaColors.current
+    val colors =  MaterialTheme.colorScheme
 
     BadgedBox(badge = { TabBarBadgeView(badgeAmount) }) {
         Icon(
             imageVector = if (isSelected) selectedIcon else unselectedIcon,
             contentDescription = title,
-            tint = if (isSelected) colors.textPrimary else colors.textPrimary.copy(alpha = 0.7f)
+            tint = if (isSelected) colors.primary else colors.primary.copy(alpha = 0.7f)
         )
     }
 }

@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -55,12 +54,12 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, AppSize.spacingSmall)
+            .padding(AppSize.noSpace, AppSize.spacingSmall)
     ) {
         if (loading) {
             CircularProgressIndicator(
                 color = TextWhite,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(AppSize.spacingXXLarge)
             )
         } else if (showRetry) {
             Text(
@@ -152,7 +151,7 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
                         imageVector = Icons.Default.SportsEsports,
                         contentDescription = stringResource(R.string.game_shelf_no_cover),
                         tint = TextWhite,
-                        modifier = Modifier.size(64.dp)
+                        modifier = Modifier.size(AppSize.spacingXXXLarge)
                     )
                 }
             }

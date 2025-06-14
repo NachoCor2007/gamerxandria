@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.austral.gamerxandria.R
@@ -100,7 +99,7 @@ private fun LibraryBody(
             onClick = { showDialog = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(0.dp, 0.dp, 0.dp, AppSize.contentPadding),
+                .padding(AppSize.noSpace, AppSize.noSpace, AppSize.noSpace, AppSize.contentPadding),
             containerColor = ButtonRed,
             elevation = FloatingActionButtonDefaults.elevation()
         ) {

@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -51,7 +50,7 @@ fun ProfileTab() {
             ProfileContent(userData.value!!)
             Spacer(modifier = Modifier.padding(AppSize.spacingLarge))
             Button(onClick = { viewModel.signOut() }) {
-                Text("Sign out")
+                Text(stringResource(R.string.sign_out_message))
             }
         }
     }
@@ -64,7 +63,7 @@ fun LoginWithGoogleButton(onClick: () -> Unit) {
             containerColor = MaterialTheme.colorScheme.secondary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        border = BorderStroke(AppSize.borderWidth, MaterialTheme.colorScheme.primary),
         onClick = onClick
     ) {
         Image(

@@ -37,7 +37,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -65,7 +64,7 @@ fun GameView(videoGameId: Int) {
     if (loading) {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(AppSize.spacingXXLarge)
         )
     } else if (showRetry) {
         Text(
@@ -117,7 +116,7 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
                             imageVector = Icons.Default.SportsEsports,
                             contentDescription = stringResource(R.string.game_shelf_no_cover),
                             tint = TextWhite,
-                            modifier = Modifier.size(64.dp)
+                            modifier = Modifier.size(AppSize.spacingXXXLarge)
                         )
                     }
                 }
@@ -222,7 +221,7 @@ private fun ShelfManagementDialog(
                 if (!hasLoadedInitialSelections.value) {
                     CircularProgressIndicator(
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(AppSize.spacingLarge)
                             .align(Alignment.CenterHorizontally),
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -232,7 +231,7 @@ private fun ShelfManagementDialog(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 4.dp)
+                                .padding(vertical = AppSize.spacingTiny)
                         ) {
                             Checkbox(
                                 checked = shelfSelections.value[shelf.name] == true,
@@ -245,7 +244,7 @@ private fun ShelfManagementDialog(
                             Text(
                                 text = shelf.name,
                                 style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(start = 8.dp)
+                                modifier = Modifier.padding(start = AppSize.spacingSmall)
                             )
                         }
                     }
@@ -261,14 +260,14 @@ private fun ShelfManagementDialog(
                 // Deshabilitar el botón hasta que las selecciones iniciales se hayan cargado
                 enabled = hasLoadedInitialSelections.value
             ) {
-                Text("Save")
+                Text(stringResource(R.string.save_updated_shelves))
             }
         },
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel_shelves_update))
             }
         }
     )
@@ -286,7 +285,7 @@ private fun InvolvedCompaniesComponent(videoGame: VideoGame) {
             Text(
                 text = stringResource(R.string.game_view_display_point_prefix) + company.company.name,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
+                modifier = Modifier.padding(AppSize.spacingLarge, AppSize.noSpace, AppSize.noSpace, AppSize.spacingMedium)
             )
         }
     }
@@ -304,7 +303,7 @@ private fun GenresComponent(videoGame: VideoGame) {
             Text(
                 text = stringResource(R.string.game_view_display_point_prefix) + genre.name,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
+                modifier = Modifier.padding(AppSize.spacingLarge, AppSize.noSpace, AppSize.noSpace, AppSize.spacingMedium)
             )
         }
     }
@@ -322,7 +321,7 @@ private fun PlatformsComponent(videoGame: VideoGame) {
             Text(
                 text = stringResource(R.string.game_view_display_point_prefix) + platform.name,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(AppSize.spacingLarge, 0.dp, 0.dp, AppSize.spacingMedium)
+                modifier = Modifier.padding(AppSize.spacingLarge, AppSize.noSpace, AppSize.noSpace, AppSize.spacingMedium)
             )
         }
     }
@@ -340,7 +339,7 @@ private fun VideoGameTitle(videoGame: VideoGame) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, AppSize.spacingSmall),
+            .padding(AppSize.noSpace, AppSize.spacingSmall),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

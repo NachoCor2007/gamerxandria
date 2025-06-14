@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
@@ -64,7 +63,7 @@ fun GuessTab() {
     if (loading) {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(AppSize.spacingXXLarge)
         )
     } else if (showRetry) {
         Text(
@@ -100,20 +99,20 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                 contentDescription = stringResource(R.string.videoGame_cover_desc),
                 alignment = Alignment.Center,
                 modifier = Modifier
-                    .height(256.dp)
+                    .height(AppSize.guessImageHeight)
                     .fillMaxWidth()
-                    .blur(100.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+                    .blur(AppSize.spacingXXXLarge, edgeTreatment = BlurredEdgeTreatment.Unbounded)
             )
         } else {
             Box(Modifier
                 .background(InactiveTabColorLight)
-                .height(256.dp)
+                .height(AppSize.guessImageHeight)
                 .fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = Icons.Default.SportsEsports,
                     contentDescription = stringResource(R.string.game_cover_not_found),
                     tint = TextWhite,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier.size(AppSize.spacingXXXLarge)
                 )
             }
         }
@@ -125,7 +124,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
             style = MaterialTheme.typography.bodyMedium
         )
 
-        Column(modifier = Modifier.padding(0.dp, AppSize.contentPadding)) {
+        Column(modifier = Modifier.padding(AppSize.noSpace, AppSize.contentPadding)) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 TextField(
                     singleLine = true,
@@ -136,7 +135,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                     },
                     label = { Text(stringResource(R.string.guess_tab_guess_field)) },
                     modifier = Modifier
-                        .width(250.dp)
+                        .width(AppSize.resultsHeight)
                         .padding(AppSize.contentPadding),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -182,7 +181,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                         disabledContainerColor = ButtonRed.copy(alpha = 0.6f)
                     )
                 ) {
-                    Text("Submit")
+                    Text(stringResource(R.string.submit_guess))
                 }
             }
 
@@ -196,7 +195,7 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(0.dp, 0.dp, 0.dp, AppSize.spacingSmall)
+                                .padding(AppSize.noSpace, AppSize.noSpace, AppSize.noSpace, AppSize.spacingSmall)
                                 .padding(AppSize.contentPadding)
                                 .clickable(true, onClick = {
                                     currentInput.value = result.name
@@ -291,7 +290,7 @@ fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
                     text = guess.text,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(0.dp, 0.dp, 0.dp, AppSize.spacingSmall)
+                        .padding(AppSize.noSpace, AppSize.noSpace, AppSize.noSpace, AppSize.spacingSmall)
                         .background(backgroundColor)
                         .padding(AppSize.contentPadding),
                     color = MaterialTheme.colorScheme.onPrimary,
@@ -303,7 +302,7 @@ fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
                         text = hints[guesses.indexOf(guess)],
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 0.dp, 0.dp, AppSize.spacingSmall)
+                            .padding(AppSize.noSpace, AppSize.noSpace, AppSize.noSpace, AppSize.spacingSmall)
                             .background(AccentPurple)
                             .padding(AppSize.spacingSmall),
                         style = MaterialTheme.typography.bodyMedium

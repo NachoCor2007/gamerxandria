@@ -65,24 +65,6 @@ data class GamerxandriaColors(
     val errorText: Color
 )
 
-val LocalGamerxandriaColors = staticCompositionLocalOf {
-    GamerxandriaColors(
-        background = BackgroundDark,
-        cardBackground = CardBackgroundDark,
-        accentPurple = AccentPurpleDark,
-        buttonRed = ButtonRedDark,
-        textPrimary = TextWhiteDark,
-        textSecondary = TextGrayDark,
-        activeTabColor = ActiveTabColorDark,
-        inactiveTabColor = InactiveTabColorDark,
-        statusWrong = StatusWrongDark,
-        statusNear = StatusNearDark,
-        statusCorrect = StatusCorrectDark,
-        errorBackground = ErrorBackgroundDark,
-        errorText = ErrorTextDark
-    )
-}
-
 @Composable
 fun GamerxandriaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
