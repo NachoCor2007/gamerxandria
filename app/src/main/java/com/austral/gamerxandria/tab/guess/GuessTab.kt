@@ -32,7 +32,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -64,7 +63,7 @@ fun GuessTab() {
 
     if (loading) {
         CircularProgressIndicator(
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(48.dp)
         )
     } else if (showRetry) {
@@ -295,7 +294,7 @@ fun GuessList(guesses: List<Guess>, videoGame: VideoGame) {
                         .padding(0.dp, 0.dp, 0.dp, AppSize.spacingSmall)
                         .background(backgroundColor)
                         .padding(AppSize.contentPadding),
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     style = MaterialTheme.typography.bodyMedium
                 )
 
