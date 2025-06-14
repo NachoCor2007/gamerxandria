@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SportsEsports
@@ -47,7 +46,6 @@ import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
 import com.austral.gamerxandria.ui.theme.StatusCorrect
 import com.austral.gamerxandria.ui.theme.StatusNear
 import com.austral.gamerxandria.ui.theme.StatusWrong
-import com.austral.gamerxandria.ui.theme.TextBlack
 import com.austral.gamerxandria.ui.theme.TextWhite
 import java.time.Instant
 import java.time.ZoneId

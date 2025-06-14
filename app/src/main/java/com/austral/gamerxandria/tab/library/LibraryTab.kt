@@ -29,7 +29,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.austral.gamerxandria.R
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
 import com.austral.gamerxandria.ui.theme.AppSize
-import com.austral.gamerxandria.ui.theme.AppSize.textLarge
 import com.austral.gamerxandria.ui.theme.AppSize.textMedium
 import com.austral.gamerxandria.ui.theme.ButtonRed
 
