@@ -31,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.austral.gamerxandria.R
-import com.austral.gamerxandria.model.Shelf
+import com.austral.gamerxandria.storage.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.ui.theme.AppSize
 import com.austral.gamerxandria.ui.theme.GameCardTitle
@@ -44,9 +44,8 @@ import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
 fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
     val viewModel = hiltViewModel<GameShelfViewModel>()
 
-    // Load games for this specific shelf when the composable first launches
-    LaunchedEffect(shelf.games) {
-        if (shelf.games.isNotEmpty()){ viewModel.loadGames(shelf.name, shelf.games) }
+    LaunchedEffect(shelf.name) {
+        viewModel.loadGamesFromDatabase(shelf.name)
     }
 
     val videoGames = viewModel.videoGames.collectAsStateWithLifecycle().value
@@ -61,7 +60,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
         if (loading) {
             CircularProgressIndicator(
                 color = TextWhite,
-            modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp)
             )
         } else if (showRetry) {
             Text(
@@ -69,7 +68,7 @@ fun GameShelf(navigateToGameView: (Int) -> Unit, shelf: Shelf) {
             )
             Button(
                 onClick = {
-                    viewModel.retryApiCall(shelf.name, shelf.games)
+                    viewModel.retryApiCall(shelf.name)
                 }
             ) {
                 Text(
@@ -113,11 +112,6 @@ fun ShelfDisplay(
                 }
             } else {
                 videoGames.forEach { videoGame ->
-//                Text(
-//                    text = videoGame.toString(),
-//                    style = GameCardTitle,
-//                    modifier = Modifier.padding(AppSize.spacingTiny)
-//                )
                     GameCard(
                         navigateToGameView = navigateToGameView,
                         videoGame = videoGame
@@ -143,7 +137,6 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Background image filling the entire card
             if (videoGame.cover != null) {
                 AsyncImage(
                     model = stringResource(R.string.game_shelf_image_url_prefix) + videoGame.cover.url,
@@ -164,7 +157,6 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
                 }
             }
 
-            // Semi-transparent overlay to make text more readable
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -180,7 +172,6 @@ fun GameCard(navigateToGameView: (Int) -> Unit, videoGame: VideoGame) {
                     )
             )
 
-            // Text at the bottom
             Text(
                 text = videoGame.name,
                 style = GameCardTitle,

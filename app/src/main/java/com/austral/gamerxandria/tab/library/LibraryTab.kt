@@ -51,16 +51,13 @@ fun LibraryTab(navigateToGameView: (Int) -> Unit) {
 
     when (isBiometricAvailable) {
         BiometricManager.BIOMETRIC_SUCCESS -> {
-            // Biometric features are available
             if (isAuthenticated) {
                 LibraryBody(viewModel, navigateToGameView)
             } else {
-                // User is not authenticated, show a message or prompt
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // You can replace this with a more user-friendly message or UI
                     Text(
                         textAlign = TextAlign.Center,
                         text = stringResource(R.string.authentication_required)
@@ -69,7 +66,6 @@ fun LibraryTab(navigateToGameView: (Int) -> Unit) {
             }
         }
         else -> {
-            // No biometric features available on this device
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -88,7 +84,7 @@ private fun LibraryBody(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        val shelves = viewModel.retrieveShelves()
+        val shelves by viewModel.shelves.collectAsState(listOf())
 
         Column(
             modifier = Modifier

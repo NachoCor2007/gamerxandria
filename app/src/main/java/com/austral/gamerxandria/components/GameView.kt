@@ -25,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.austral.gamerxandria.R
-import com.austral.gamerxandria.model.Shelf
+import com.austral.gamerxandria.storage.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import com.austral.gamerxandria.tab.NotFound
 import com.austral.gamerxandria.ui.theme.AppSize
@@ -105,7 +107,7 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
                     AsyncImage(
                         model = stringResource(R.string.game_shelf_image_url_prefix) + videoGame.cover.url,
                         contentDescription = stringResource(R.string.game_shelf_cover_message),
-                        contentScale = ContentScale.Crop,  // This ensures the image covers the whole area
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
@@ -151,7 +153,7 @@ private fun VideoGameInformation(videoGame: VideoGame, viewModel: GameViewModel)
 @Composable
 private fun ShelfManagementButton(videoGame: VideoGame, viewModel: GameViewModel) {
     var showDialog by remember { mutableStateOf(false) }
-    val shelves = viewModel.shelves.collectAsStateWithLifecycle().value
+    val shelves by viewModel.shelves.collectAsState(listOf())
 
     Button(
         onClick = { showDialog = true },
@@ -168,7 +170,6 @@ private fun ShelfManagementButton(videoGame: VideoGame, viewModel: GameViewModel
             shelves = shelves,
             onDismiss = { showDialog = false },
             onSave = { updatedSelections ->
-                // Call a new function in ViewModel to update the shelves
                 viewModel.updateGameShelves(videoGame.id, updatedSelections)
                 showDialog = false
             }
@@ -183,11 +184,25 @@ private fun ShelfManagementDialog(
     onDismiss: () -> Unit,
     onSave: (Map<String, Boolean>) -> Unit
 ) {
-    // Create a map to track which shelves contain this game (using shelf name as the key)
+    val viewModel = hiltViewModel<GameViewModel>()
     val shelfSelections = remember {
-        mutableStateOf(shelves.associate { shelf ->
-            shelf.name to (shelf.games.any { it == videoGame.id })
-        })
+        mutableStateOf(shelves.associate { shelf -> shelf.name to false })
+    }
+
+    val hasLoadedInitialSelections = remember { mutableStateOf(false) }
+
+    LaunchedEffect(videoGame.id) {
+        if (!hasLoadedInitialSelections.value) {
+            val updatedSelections = mutableMapOf<String, Boolean>()
+
+            shelves.forEach { shelf ->
+                val isInShelf = viewModel.isGameInShelf(shelf.name, videoGame.id)
+                updatedSelections[shelf.name] = isInShelf
+            }
+
+            shelfSelections.value = updatedSelections
+            hasLoadedInitialSelections.value = true
+        }
     }
 
     AlertDialog(
@@ -205,26 +220,35 @@ private fun ShelfManagementDialog(
                     modifier = Modifier.padding(bottom = AppSize.spacingMedium)
                 )
 
-                shelves.forEach { shelf ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                if (!hasLoadedInitialSelections.value) {
+                    CircularProgressIndicator(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp)
-                    ) {
-                        Checkbox(
-                            checked = shelfSelections.value[shelf.name] == true,
-                            onCheckedChange = { isChecked ->
-                                shelfSelections.value = shelfSelections.value.toMutableMap().apply {
-                                    put(shelf.name, isChecked)
+                            .size(24.dp)
+                            .align(Alignment.CenterHorizontally),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                } else {
+                    shelves.forEach { shelf ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp)
+                        ) {
+                            Checkbox(
+                                checked = shelfSelections.value[shelf.name] == true,
+                                onCheckedChange = { isChecked ->
+                                    shelfSelections.value = shelfSelections.value.toMutableMap().apply {
+                                        put(shelf.name, isChecked)
+                                    }
                                 }
-                            }
-                        )
-                        Text(
-                            text = shelf.name,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(start = 8.dp)
-                        )
+                            )
+                            Text(
+                                text = shelf.name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -234,7 +258,9 @@ private fun ShelfManagementDialog(
                 onClick = { onSave(shelfSelections.value) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ButtonRed
-                )
+                ),
+                // Deshabilitar el botón hasta que las selecciones iniciales se hayan cargado
+                enabled = hasLoadedInitialSelections.value
             ) {
                 Text("Save")
             }

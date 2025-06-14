@@ -3,12 +3,16 @@ package com.austral.gamerxandria.tab.library
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.austral.gamerxandria.R
-import com.austral.gamerxandria.mock.userShelvesMock
-import com.austral.gamerxandria.model.Shelf
+import com.austral.gamerxandria.storage.Shelf
 import com.austral.gamerxandria.security.BiometricAuthManager
+import com.austral.gamerxandria.storage.GamerxandriaDatabase
+import com.austral.gamerxandria.storage.ShelfVideoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,30 +20,49 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val biometricAuthManager: BiometricAuthManager
 ) : ViewModel() {
-//    Shelf related properties
-    private var _shelves = MutableStateFlow(userShelvesMock)
-    val shelves = _shelves.asStateFlow()
-//    Auth related properties
+    private val database = GamerxandriaDatabase.getDatabase(context)
+    private val shelfDao = database.shelfDao()
+    private val shelfVideoGameDao = database.videoGameIdDao()
+
+    val shelves = shelfDao.getAllShelves().asFlow()
+
     private var _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated = _isAuthenticated.asStateFlow()
 
-//    Shelf related methods
-    fun retrieveShelves(): List<Shelf> {
-        return shelves.value
-    }
-
+    //    Shelf related methods
     fun addShelf(shelfName: String) {
-        val shelf = Shelf(shelfName, listOf())
         viewModelScope.launch {
-            _shelves.emit(
-                _shelves.value + shelf
-            )
+            val existingShelf = shelfDao.getShelfByName(shelfName)
+            if (existingShelf == null) {
+                val shelf = Shelf(shelfName)
+                shelfDao.insert(shelf)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.already_existing_shelf_message),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
-//    Auth related methods
+    fun getVideoGamesInShelf(shelfName: String): LiveData<List<ShelfVideoGame>> {
+        return shelfVideoGameDao.getVideoGameIdsByShelfName(shelfName)
+    }
+
+    fun deleteShelf(shelfName: String) {
+        viewModelScope.launch {
+            val shelf = shelfDao.getShelfByName(shelfName)
+            if (shelf != null) {
+                shelfDao.delete(shelf)
+            }
+        }
+    }
+
+    // Auth related methods
     fun authenticate(context: Context) {
         biometricAuthManager.authenticate(
             context,

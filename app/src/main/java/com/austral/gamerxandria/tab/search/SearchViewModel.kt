@@ -3,8 +3,6 @@ package com.austral.gamerxandria.tab.search
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.austral.gamerxandria.apiManager.ApiServiceImpl
-import com.austral.gamerxandria.mock.searchShelvesMock
-import com.austral.gamerxandria.model.Shelf
 import com.austral.gamerxandria.model.VideoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

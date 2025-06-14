@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austral.gamerxandria.apiManager.ApiServiceImpl
 import com.austral.gamerxandria.model.VideoGame
+import com.austral.gamerxandria.storage.GamerxandriaDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,9 @@ class GameShelfViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val apiServiceImpl: ApiServiceImpl,
 ) : ViewModel() {
+    private val database = GamerxandriaDatabase.getDatabase(context)
+    private val shelfVideoGameDao = database.videoGameIdDao()
+
     private var _videoGames = MutableStateFlow(mapOf<String, List<VideoGame>>())
     val videoGames = _videoGames.asStateFlow()
 
@@ -26,11 +30,34 @@ class GameShelfViewModel @Inject constructor(
     private var _showRetry = MutableStateFlow(false)
     val showRetry = _showRetry.asStateFlow()
 
-    fun retryApiCall(shelfName: String, listOfVideoGamesIds: List<Int>) {
-        loadGames(shelfName, listOfVideoGamesIds)
+    fun retryApiCall(shelfName: String) {
+        loadGamesFromDatabase(shelfName)
+    }
+
+    fun loadGamesFromDatabase(shelfName: String) {
+        viewModelScope.launch {
+            _loading.value = true
+
+            val videoGameIds = shelfVideoGameDao.getVideoGameIdsByShelfNameSync(shelfName)
+
+            if (videoGameIds.isNotEmpty()) {
+                val gameIds = videoGameIds.map { it.videoGameId }
+
+                loadGamesFromApi(shelfName, gameIds)
+            } else {
+                _videoGames.value = _videoGames.value.toMutableMap().apply {
+                    this[shelfName] = emptyList()
+                }
+                _loading.value = false
+            }
+        }
     }
 
     fun loadGames(shelfName: String, listOfVideoGamesIds: List<Int>) {
+        loadGamesFromApi(shelfName, listOfVideoGamesIds)
+    }
+
+    private fun loadGamesFromApi(shelfName: String, listOfVideoGamesIds: List<Int>) {
         _loading.value = true
 
         apiServiceImpl.getVideoGamesByIds(

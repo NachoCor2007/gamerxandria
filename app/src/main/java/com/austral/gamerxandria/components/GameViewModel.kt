@@ -7,9 +7,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
 import com.austral.gamerxandria.apiManager.ApiServiceImpl
-import com.austral.gamerxandria.mock.userShelvesMock
 import com.austral.gamerxandria.model.VideoGame
+import com.austral.gamerxandria.storage.GamerxandriaDatabase
+import com.austral.gamerxandria.storage.ShelfVideoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +26,18 @@ import kotlinx.coroutines.launch
 class GameViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val apiServiceImpl: ApiServiceImpl,
-    private val savedStateHandle: SavedStateHandle  // Add this parameter
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val database = GamerxandriaDatabase.getDatabase(context)
+    private val shelfDao = database.shelfDao()
+    private val shelfVideoGameDao = database.videoGameIdDao()
+
     private var _videoGame = MutableStateFlow<VideoGame?>(null)
     val videoGame = _videoGame.asStateFlow()
 
-    private var _shelves = MutableStateFlow(userShelvesMock)
-    val shelves = _shelves.asStateFlow()
+    val shelves = shelfDao.getAllShelves().asFlow()
 
-    private var _loading = MutableStateFlow(true)  // Start with loading state
+    private var _loading = MutableStateFlow(true)
     val loading = _loading.asStateFlow()
 
     private var _showRetry = MutableStateFlow(false)
@@ -75,48 +81,41 @@ class GameViewModel @Inject constructor(
 
     fun updateGameShelves(gameId: Int, shelfSelections: Map<String, Boolean>) {
         viewModelScope.launch {
-            val currentShelves = _shelves.value.toMutableList()
-            val updatedShelves = currentShelves.map { shelf ->
-                // Handle the shelf update based on selection status
-                if (shelfSelections[shelf.name] == true) {
-                    // Add game to shelf if not already present
-                    if (!shelf.games.any { it == gameId }) {
-                        // We need the full game object to add
-                        val gameToAdd = _videoGame.value
-                        if (gameToAdd != null) {
-                            val updatedGames = shelf.games.toMutableList()
-                            updatedGames.add(gameToAdd.id)
+            shelfSelections.forEach { (shelfName, isSelected) ->
+                if (isSelected) {
+                    val isInShelf = shelfVideoGameDao.isGameInShelf(shelfName, gameId)
+                    if (!isInShelf) {
+                        val shelfVideoGame = ShelfVideoGame(
+                            shelfName = shelfName,
+                            videoGameId = gameId
+                        )
+                        shelfVideoGameDao.insert(shelfVideoGame)
 
-                            scheduleNotification(shelf.name)
-
-                            shelf.copy(games = updatedGames)
-                        } else {
-                            shelf
-                        }
-                    } else {
-                        shelf
+                        scheduleNotification(shelfName)
                     }
                 } else {
-                    // Remove game from shelf if present
-                    val updatedGames = shelf.games.filterNot { it == gameId }
-                    shelf.copy(games = updatedGames)
+                    shelfVideoGameDao.deleteVideoGameFromShelf(shelfName, gameId)
                 }
             }
-
-            _shelves.value = updatedShelves
         }
+    }
+
+    suspend fun isGameInShelf(shelfName: String, gameId: Int): Boolean {
+        return shelfVideoGameDao.isGameInShelf(shelfName, gameId)
+    }
+
+    fun getVideoGamesInShelf(shelfName: String): LiveData<List<ShelfVideoGame>> {
+        return shelfVideoGameDao.getVideoGameIdsByShelfName(shelfName)
     }
 
     @SuppressLint("ScheduleExactAlarm")
     fun scheduleNotification(shelfName: String) {
-        // Create an intent for the Notification BroadcastReceiver
         val intent = Intent(context, NotificationReceiver::class.java).apply {
-            putExtra("shelfName", shelfName) // Pass the shelf name to the intent
+            putExtra("shelfName", shelfName)
         }
 
         val requestCode = System.currentTimeMillis().toInt()
 
-        // Create a PendingIntent for the broadcast
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             requestCode,
@@ -124,11 +123,9 @@ class GameViewModel @Inject constructor(
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Get the AlarmManager service
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        // Get the selected time and schedule the notification
-        val triggerTimeMillis = 0L
+        val triggerTimeMillis = System.currentTimeMillis() + 1000L
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             triggerTimeMillis,
