@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 
 // Dark color scheme with our custom colors
 private val DarkColorScheme = darkColorScheme(
-    primary = BackgroundDark,
+    primary = ButtonRedLight,
     secondary = CardBackgroundDark,
     tertiary = ActiveTabColorDark,
     background = BackgroundDark,
@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = ActiveTabColorLight,
     background = BackgroundLight,
     surface = CardBackgroundLight,
-    onPrimary = Color.White,
+    onPrimary = TextBlack,
     onSecondary = Color.White,
     onTertiary = Color.White,
     onBackground = TextDarkLight,

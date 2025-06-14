@@ -47,6 +47,7 @@ import com.austral.gamerxandria.ui.theme.InactiveTabColorLight
 import com.austral.gamerxandria.ui.theme.StatusCorrect
 import com.austral.gamerxandria.ui.theme.StatusNear
 import com.austral.gamerxandria.ui.theme.StatusWrong
+import com.austral.gamerxandria.ui.theme.TextBlack
 import com.austral.gamerxandria.ui.theme.TextWhite
 import java.time.Instant
 import java.time.ZoneId
@@ -120,29 +121,12 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
         Text(
             text = stringResource(R.string.guess_tab_remaining_tries, remainingTries.intValue),
             modifier = Modifier.padding(AppSize.contentPadding),
-            color = if (remainingTries.intValue > 0) TextWhite else StatusWrong,
+            color = if (remainingTries.intValue > 0) MaterialTheme.colorScheme.onPrimary else StatusWrong,
             style = MaterialTheme.typography.bodyMedium
         )
 
         Column(modifier = Modifier.padding(AppSize.noSpace, AppSize.contentPadding)) {
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                TextField(
-                    singleLine = true,
-                    value = currentInput.value,
-                    onValueChange = {
-                        currentInput.value = it
-                        viewModel.searchGames(it) // Trigger search on text change
-                    },
-                    label = { Text(stringResource(R.string.guess_tab_guess_field)) },
-                    modifier = Modifier
-                        .width(AppSize.resultsHeight)
-                        .padding(AppSize.contentPadding),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surface,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface
-                    )
-                )
-
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(
                     onClick = {
                         if (currentInput.value.isNotBlank() && remainingTries.intValue > 0) {
@@ -183,6 +167,23 @@ private fun GuessingGame(viewModel: GuessViewModel, videoGame: VideoGame) {
                 ) {
                     Text(stringResource(R.string.submit_guess))
                 }
+                TextField(
+                    singleLine = true,
+                    value = currentInput.value,
+                    onValueChange = {
+                        currentInput.value = it
+                        viewModel.searchGames(it) // Trigger search on text change
+                    },
+                    label = { Text(stringResource(R.string.guess_tab_guess_field)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(AppSize.contentPadding),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                    )
+                )
+
             }
 
             // Display search results

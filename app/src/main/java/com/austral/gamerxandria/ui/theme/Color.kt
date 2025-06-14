@@ -9,6 +9,7 @@ val AccentPurpleDark = Color(0xFF493077)    // Purple accent from hint backgroun
 val ButtonRedDark = Color(0xFFC11B3B)       // Red/burgundy color from FAB
 val TextWhiteDark = Color.White             // White text
 val TextGrayDark = Color.Gray               // Gray text for secondary information
+val TextBlack = Color.Black
 
 // Navigation tab colors - Dark
 val ActiveTabColorDark = Color(0xFF5D3F3F)  // Brown accent for active tab

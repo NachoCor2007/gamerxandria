@@ -29,6 +29,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.austral.gamerxandria.R
 import com.austral.gamerxandria.components.ShelfCreatorPopUp
 import com.austral.gamerxandria.ui.theme.AppSize
+import com.austral.gamerxandria.ui.theme.AppSize.textLarge
+import com.austral.gamerxandria.ui.theme.AppSize.textMedium
 import com.austral.gamerxandria.ui.theme.ButtonRed
 
 @Composable
@@ -90,7 +92,18 @@ private fun LibraryBody(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf) }
+            if (shelves.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = stringResource(R.string.no_shelves_message),
+                        fontSize = textMedium
+                    )
+                }
+            } else { shelves.forEach { shelf -> GameShelf(navigateToGameView, shelf) } }
         }
 
         var showDialog by remember { mutableStateOf(false) }

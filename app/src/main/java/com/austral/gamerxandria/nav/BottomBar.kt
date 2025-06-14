@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import com.austral.gamerxandria.ui.theme.AppSize
@@ -61,7 +62,6 @@ fun TabView(tabBarItems: List<TabBarItem>, onNavigate: (String) -> Unit) {
 
     NavigationBar(
         containerColor = colors.background,
-        contentColor = colors.secondary,
         tonalElevation = AppSize.spacingTiny
     ) {
         tabBarItems.forEachIndexed { index, tabBarItem ->
